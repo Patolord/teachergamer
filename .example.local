@@ -1,0 +1,13 @@
+# Deployment used by `npx convex dev`
+CONVEX_DEPLOYMENT=dev:adjective-animal-000 # team: paloma-sq-hotmail-com, project: template-next-convex-betterauth
+
+NEXT_PUBLIC_CONVEX_URL=https://adjective-animal-000.convex.cloud
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=YOUR_PUBLISHABLE_KEY
+CLERK_SECRET_KEY=YOUR_SECRET_KEY
+
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+
+CLERK_JWT_ISSUER_DOMAIN=https://adjective-animal-000.clerk.accounts.dev
