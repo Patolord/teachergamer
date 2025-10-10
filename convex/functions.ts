@@ -1,9 +1,14 @@
 import { query, mutation, action } from "./_generated/server";
 import { v } from "convex/values";
 
-// Return the l ast 100 tasks in a given task list.
+// Return the last 100 tasks in a given task list.
 export const getUserList = query({
   args: { userId: v.id("users") },
+  returns: v.array(v.object({
+    _id: v.id("users"),
+    _creationTime: v.number(),
+    name: v.string(),
+  })),
   handler: async (ctx, args) => {
     const users = await ctx.db
       .query("users")
@@ -14,16 +19,19 @@ export const getUserList = query({
   },
 });
 
-// Create a new task with the given text
+// Create a new user with the given name
 export const createUser = mutation({
-  args: { name: v.string(), tokenIdentifier: v.string() },
+  args: { name: v.string() },
+  returns: v.id("users"),
   handler: async (ctx, args) => {
-    const newUserId = await ctx.db.insert("users", { name: args.name, tokenIdentifier: args.tokenIdentifier });
+    const newUserId = await ctx.db.insert("users", { name: args.name });
     return newUserId;
   },
 });
 
 export const doSomething = action({
+  args: {},
+  returns: v.string(),
   handler: () => {
     // implementation goes here
 
@@ -33,12 +41,14 @@ export const doSomething = action({
 });
 
 export const getForAuthenticatedUser = query({
-  args: { },
+  args: {},
+  returns: v.array(v.object({
+    _id: v.id("messages"),
+    _creationTime: v.number(),
+    body: v.string(),
+    user: v.string(),
+  })),
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("Unauthorized");
-    }
     return await ctx.db.query("messages").collect();
   },
 });
