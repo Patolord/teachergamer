@@ -11,15 +11,13 @@ const sections = [
 ];
 
 export default function Sidebar() {
-  const { activeSection, setActiveSection, scrollSmoother } = useSectionContext();
+  const { activeSection, setActiveSection } = useSectionContext();
 
   const handleSectionClick = (sectionId: number) => {
     setActiveSection(sectionId);
-    if (scrollSmoother) {
-      // Calculate scroll position based on section index
-      // Each section is 100vh, so multiply by viewport height
-      const scrollPosition = sectionId * window.innerHeight;
-      scrollSmoother.scrollTo(scrollPosition, true);
+    const element = document.getElementById(`section-${sectionId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
