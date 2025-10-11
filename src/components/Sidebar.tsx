@@ -1,13 +1,14 @@
 "use client";
 
 import { useSectionContext } from "@/contexts/SectionContext";
+import Image from "next/image";
 
-const sections = [
-  { id: 0, label: "Section 0", icon: "🏠" },
-  { id: 1, label: "Section 1", icon: "📊" },
-  { id: 2, label: "Section 2", icon: "🎮" },
-  { id: 3, label: "Section 3", icon: "⚙️" },
-  { id: 4, label: "Section 4", icon: "🎯" },
+// Tower sections mapped to app sections (bottom to top on the tower)
+const towerSections = [
+  { id: 0, label: "HOME", top: "73%", height: "15%" }, // Bottom section
+  { id: 1, label: "ABOUT", top: "57%", height: "16%" }, // Second from bottom
+  { id: 2, label: "COURSES", top: "41%", height: "16%" }, // Third from bottom
+  { id: 3, label: "TRUST", top: "25%", height: "16%" }, // Fourth from bottom (below roof)
 ];
 
 export default function Sidebar() {
@@ -22,36 +23,43 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="absolute bottom-8 left-8 pointer-events-auto">
-      <div className="bg-gray-900/80 backdrop-blur-sm border border-gray-700 rounded-2xl p-4">
-        <div className="flex flex-col gap-3">
-          {sections.map((section) => (
+    <div className="fixed bottom-8 left-8 pointer-events-auto z-50">
+      <div className="relative w-[180px] h-[600px]">
+        {/* Tower background image */}
+        <Image
+          src="/menu-ui.png"
+          alt="Navigation Tower"
+          fill
+          className="object-contain"
+          priority
+        />
+        
+        {/* Clickable regions overlay */}
+        <div className="absolute inset-0">
+          {towerSections.map((section) => (
             <button
               key={section.id}
               type="button"
               onClick={() => handleSectionClick(section.id)}
               className={`
-                w-14 h-14 rounded-xl flex flex-col items-center justify-center
-                transition-all duration-300 relative group
-                ${
-                  activeSection === section.id
-                    ? "bg-blue-600 border-2 border-blue-400 scale-110"
-                    : "bg-gray-800 border border-gray-600 hover:bg-gray-700 hover:scale-105"
-                }
+                absolute left-[10%] right-[10%] 
+                transition-all duration-300
+                
+                ${activeSection === section.id ? "" : ""}
               `}
+              style={{
+                top: section.top,
+                height: section.height,
+              }}
+              aria-label={`Navigate to ${section.label}`}
             >
-              <span className="text-xl">{section.icon}</span>
-              <span className="text-[10px] font-mono mt-0.5">
-                {section.id}
-              </span>
-              
-              {/* Tooltip */}
-              <div className="absolute left-full ml-3 px-3 py-1.5 bg-gray-900 border border-gray-600 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                <span className="text-xs font-medium">{section.label}</span>
-              </div>
+              {/* Optional: Visual indicator on hover/active */}
+              <span className="sr-only">{section.label}</span>
             </button>
           ))}
         </div>
+
+ 
       </div>
     </div>
   );
