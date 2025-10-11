@@ -47,7 +47,7 @@ export default function Radar() {
   }, { scope: containerRef, dependencies: [activeSection] });
 
   return (
-    <div className="absolute top-4 left-8 pointer-events-auto" ref={containerRef}>
+    <div className="absolute top-4 left-[-10px] pointer-events-auto" ref={containerRef}>
       <div className="relative w-48 h-48">
         {/* Disk background image */}
         <Image

@@ -24,7 +24,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="absolute bottom-8 left-8 pointer-events-auto">
+    <div className="absolute bottom-0 left-[-5px] pointer-events-auto">
       <div className="relative w-[180px] h-[600px]">
         {/* Tower background image */}
         <Image
