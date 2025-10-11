@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-black text-white flex justify-center items-center h-screen">
         <ConvexClientProvider>{children}</ConvexClientProvider>
       </body>
     </html>
