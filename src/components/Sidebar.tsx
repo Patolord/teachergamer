@@ -8,7 +8,8 @@ const towerSections = [
   { id: 0, label: "HOME", top: "73%", height: "15%" }, // Bottom section
   { id: 1, label: "ABOUT", top: "57%", height: "16%" }, // Second from bottom
   { id: 2, label: "COURSES", top: "41%", height: "16%" }, // Third from bottom
-  { id: 3, label: "TRUST", top: "25%", height: "16%" }, // Fourth from bottom (below roof)
+  { id: 3, label: "TRUST", top: "25%", height: "16%" }, // Fourth from bottom
+  { id: 4, label: "BOOK", top: "9%", height: "16%" }, // Top section (roof area)
 ];
 
 export default function Sidebar() {
@@ -23,7 +24,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="fixed bottom-8 left-8 pointer-events-auto z-50">
+    <div className="absolute bottom-8 left-8 pointer-events-auto">
       <div className="relative w-[180px] h-[600px]">
         {/* Tower background image */}
         <Image

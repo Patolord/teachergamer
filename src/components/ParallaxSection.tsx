@@ -20,9 +20,9 @@ export default function ParallaxSection({
   return (
     <div
       id={id}
-      className="h-screen flex items-center justify-center relative overflow-hidden"
+      className="h-screen w-full relative overflow-hidden"
     >
-      {/* Background image container */}
+      {/* Background image container - Full width */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <img
           src={backgroundImage}
@@ -33,7 +33,7 @@ export default function ParallaxSection({
         />
       </div>
 
-      {/* Foreground image container */}
+      {/* Foreground image container - Full width */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <img
           src={foregroundImage}
@@ -44,14 +44,16 @@ export default function ParallaxSection({
         />
       </div>
 
-      {/* Content */}
-      <div className="text-white text-center relative z-10">
-        {sectionNumber === 0 ? (
-          <h1 className="text-6xl font-bold drop-shadow-lg">{title}</h1>
-        ) : (
-          <h2 className="text-6xl font-bold drop-shadow-lg">{title}</h2>
-        )}
-        <p className="text-xl mt-4 drop-shadow-md">{subtitle}</p>
+      {/* Content - Centered in right area accounting for sidebar */}
+      <div className="absolute inset-0 flex items-center justify-center lg:pl-[240px]">
+        <div className="text-white text-center relative z-10">
+          {sectionNumber === 0 ? (
+            <h1 className="text-6xl font-bold drop-shadow-lg">{title}</h1>
+          ) : (
+            <h2 className="text-6xl font-bold drop-shadow-lg">{title}</h2>
+          )}
+          <p className="text-xl mt-4 drop-shadow-md">{subtitle}</p>
+        </div>
       </div>
     </div>
   );

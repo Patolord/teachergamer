@@ -6,6 +6,9 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import ParallaxSection from "@/components/ParallaxSection";
+import BookSection from "@/components/BookSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import CoursesSection from "@/components/CoursesSection";
 import { useSectionContext } from "@/contexts/SectionContext";
 
 const sections = [
@@ -29,6 +32,7 @@ const sections = [
     title: "COURSES",
     backgroundImage: "/section-2-bg.png",
     foregroundImage: "/section-2-fg.png",
+    type: "courses",
   },
   {
     id: "section-3",
@@ -36,6 +40,13 @@ const sections = [
     title: "TRUST",
     backgroundImage: "/section-3-bg.png",
     foregroundImage: "/section-3-fg.png",
+    type: "testimonials",
+  },
+  {
+    id: "section-4",
+    number: 4,
+    title: "BOOK",
+    type: "book",
   },
 ];
 
@@ -73,16 +84,44 @@ export default function Home() {
   return (
     <div id="smooth-wrapper" ref={container}>
       <div id="smooth-content">
-        {sections.map((section) => (
-          <ParallaxSection
-            key={section.id}
-            id={section.id}
-            sectionNumber={section.number}
-            title={section.title}
-            backgroundImage={section.backgroundImage}
-            foregroundImage={section.foregroundImage}
-          />
-        ))}
+        {sections.map((section) => {
+          if (section.type === "book") {
+            return <BookSection key={section.id} id={section.id} />;
+          }
+          
+          if (section.type === "testimonials") {
+            return (
+              <TestimonialsSection
+                key={section.id}
+                id={section.id}
+                title={section.title}
+                backgroundImage={section.backgroundImage ?? ""}
+                foregroundImage={section.foregroundImage ?? ""}
+              />
+            );
+          }
+          
+          if (section.type === "courses") {
+            return (
+              <CoursesSection
+                key={section.id}
+                id={section.id}
+                title={section.title}
+              />
+            );
+          }
+          
+          return (
+            <ParallaxSection
+              key={section.id}
+              id={section.id}
+              sectionNumber={section.number}
+              title={section.title}
+              backgroundImage={section.backgroundImage ?? ""}
+              foregroundImage={section.foregroundImage ?? ""}
+            />
+          );
+        })}
       </div>
     </div>
   );
