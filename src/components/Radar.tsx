@@ -5,14 +5,47 @@ import { useSectionContext } from "@/contexts/SectionContext";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Radar() {
   const { activeSection } = useSectionContext();
   const textRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const radarRef = useRef<HTMLDivElement>(null);
   const currentRotationRef = useRef(0);
 
   useGSAP(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    if (!radarRef.current) return;
+
+    // Start hidden
+    gsap.set(radarRef.current, { opacity: 0, scale: 0.8 });
+
+    // Fade in when section-1 (ABOUT) starts
+    ScrollTrigger.create({
+      trigger: "#section-1",
+      start: "top center",
+      onEnter: () => {
+        gsap.to(radarRef.current, {
+          opacity: 1,
+          scale: 1,
+          visibility: 'visible',
+          duration: 1,
+          ease: "back.out(1.7)",
+        });
+      },
+      onLeaveBack: () => {
+        gsap.to(radarRef.current, {
+          opacity: 0,
+          scale: 0.8,
+          visibility: 'hidden',
+          duration: 0.5,
+          ease: "power2.in",
+        });
+      },
+    });
+
+    // Section rotation animation
     if (!textRef.current) return;
 
     // Calculate target rotation angle
@@ -44,11 +77,15 @@ export default function Radar() {
         gsap.set(textRef.current, { x, y });
       },
     });
-  }, { scope: containerRef, dependencies: [activeSection] });
+  }, { scope: radarRef, dependencies: [activeSection] });
 
   return (
-    <div className="absolute top-4 left-[-10px] pointer-events-auto" ref={containerRef}>
-      <div className="relative w-48 h-48">
+    <div className="absolute top-4 left-[-10px] pointer-events-auto">
+      <div 
+        ref={radarRef} 
+        className="relative w-48 h-48"
+        style={{ opacity: 0, transform: 'scale(0.8)', visibility: 'hidden' }}
+      >
         {/* Disk background image */}
         <Image
           src="/disk.png"

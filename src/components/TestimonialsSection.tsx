@@ -1,11 +1,13 @@
 "use client";
 
 interface TestimonialsSectionProps {
-  id: string;
-  backgroundImage: string;
-  foregroundImage: string;
-  title: string;
+  sectionNumber: number;
 }
+
+const SECTION_DATA = {
+  id: "section-3",
+  title: "TRUST",
+};
 
 const testimonials = [
   {
@@ -32,38 +34,14 @@ const testimonials = [
 ];
 
 export default function TestimonialsSection({
-  id,
-  backgroundImage,
-  foregroundImage,
-  title,
+  sectionNumber: _sectionNumber,
 }: TestimonialsSectionProps) {
+  const { id, title } = SECTION_DATA;
   return (
     <div
       id={id}
-      className="h-screen w-full relative overflow-hidden"
+      className="h-screen w-full relative overflow-hidden bg-gradient-to-b from-gray-900 to-gray-800"
     >
-      {/* Background image container - Full width */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <img
-          src={backgroundImage}
-          alt=""
-          className="absolute w-full h-[160%] object-cover"
-          data-speed="auto"
-          style={{ top: 0, left: 0 }}
-        />
-      </div>
-
-      {/* Foreground image container - Full width */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <img
-          src={foregroundImage}
-          alt=""
-          className="absolute w-full h-[160%] object-cover"
-          data-speed="auto"
-          style={{ bottom: 0, left: 0 }}
-        />
-      </div>
-
       {/* Content - Centered in right area accounting for sidebar */}
       <div className="absolute inset-0 flex items-center justify-center lg:pl-[240px]">
         <div className="w-full max-w-6xl mx-auto px-4 py-16 relative z-10">

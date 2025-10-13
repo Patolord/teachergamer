@@ -4,10 +4,15 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 interface BookSectionProps {
-  id: string;
+  sectionNumber: number;
 }
 
-export default function BookSection({ id }: BookSectionProps) {
+const SECTION_DATA = {
+  id: "section-4",
+};
+
+export default function BookSection({ sectionNumber: _sectionNumber }: BookSectionProps) {
+  const { id } = SECTION_DATA;
   const bookImage = "/book-cover.png";
   const title = "The Educator's Guide to Tabletop Adventures";
   const description = "Transform your classroom or learning space with story-rich, collaborative role-playing experiences. This comprehensive guide shows you how to use tabletop RPGs to build essential life skills—empathy, resilience, strategic thinking, and communication—through epic adventures your students will never forget. Device-free, imagination-first learning.";

@@ -4,9 +4,13 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 interface CoursesSectionProps {
-  id: string;
-  title: string;
+  sectionNumber: number;
 }
+
+const SECTION_DATA = {
+  id: "section-2",
+  title: "COURSES",
+};
 
 const courses = [
   {
@@ -36,9 +40,9 @@ const courses = [
 ];
 
 export default function CoursesSection({
-  id,
-  title,
+  sectionNumber: _sectionNumber,
 }: CoursesSectionProps) {
+  const { id, title } = SECTION_DATA;
   const handleBookNow = (courseTitle: string) => {
     console.log(`Booking: ${courseTitle}`);
     // Add your booking logic here
