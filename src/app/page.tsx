@@ -3,6 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
+import SplashCursor from "@/components/SplashCursor";
 
 export default function Home() {
   const box = useRef<HTMLDivElement>(null);
@@ -18,6 +19,8 @@ export default function Home() {
     <div>
       <h1>Home</h1>
       <div ref={box} className="w-10 h-10 bg-red-500"></div>
+
+      <SplashCursor />
     </div>
   );
 }
