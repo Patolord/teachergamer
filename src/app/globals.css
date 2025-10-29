@@ -6,8 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: 'Merriweather Sans', sans-serif;
-  --font-mono: 'Fira Code', monospace;
+  --font-sans: "Merriweather Sans", sans-serif;
+  --font-mono: "Fira Code", monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -41,7 +41,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-serif: 'Merriweather', serif;
+  --font-serif: "Merriweather", serif;
   --radius: 0.375rem;
   --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
   --tracking-tight: calc(var(--tracking-normal) - 0.025em);
@@ -80,17 +80,17 @@
   --primary-foreground: oklch(0.2612 0.0154 264.2613);
   --secondary: oklch(0.9528 0.0053 247.8793);
   --secondary-foreground: oklch(0.2612 0.0154 264.2613);
-  --muted: oklch(0.9260 0.0088 67.7167);
+  --muted: oklch(0.926 0.0088 67.7167);
   --muted-foreground: oklch(0.4973 0.0233 264.3376);
   --accent: oklch(0.9342 0.0229 76.5191);
   --accent-foreground: oklch(0.4114 0.0641 73.5448);
-  --destructive: oklch(0.6333 0.2001 24.9320);
+  --destructive: oklch(0.6333 0.2001 24.932);
   --border: oklch(0.8393 0.0101 264.5103);
   --input: oklch(0.9708 0.0044 67.7725);
   --ring: oklch(0.9013 0.0346 76.4158);
   --chart-1: oklch(0.9013 0.0346 76.4158);
   --chart-2: oklch(0.5995 0.1404 154.9675);
-  --chart-3: oklch(0.6758 0.1453 238.4620);
+  --chart-3: oklch(0.6758 0.1453 238.462);
   --chart-4: oklch(0.6532 0.2114 353.9392);
   --chart-5: oklch(0.7794 0.1623 75.2937);
   --sidebar: oklch(0.3103 0.0197 264.2318);
@@ -102,9 +102,9 @@
   --sidebar-border: oklch(0.4973 0.0233 264.3376);
   --sidebar-ring: oklch(0.9013 0.0346 76.4158);
   --destructive-foreground: oklch(0.9854 0.0022 67.7975);
-  --font-sans: 'Merriweather Sans', sans-serif;
-  --font-serif: 'Merriweather', serif;
-  --font-mono: 'Fira Code', monospace;
+  --font-sans: "Merriweather Sans", sans-serif;
+  --font-serif: "Merriweather", serif;
+  --font-mono: "Fira Code", monospace;
   --shadow-color: hsl(220 15% 15%);
   --shadow-opacity: 0.05;
   --shadow-blur: 0.5rem;
@@ -115,52 +115,62 @@
   --spacing: 0.25rem;
   --shadow-2xs: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.03);
   --shadow-xs: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.03);
-  --shadow-sm: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.05), 0rem 1px 2px -1.125px hsl(220 15% 15% / 0.05);
-  --shadow: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.05), 0rem 1px 2px -1.125px hsl(220 15% 15% / 0.05);
-  --shadow-md: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.05), 0rem 2px 4px -1.125px hsl(220 15% 15% / 0.05);
-  --shadow-lg: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.05), 0rem 4px 6px -1.125px hsl(220 15% 15% / 0.05);
-  --shadow-xl: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.05), 0rem 8px 10px -1.125px hsl(220 15% 15% / 0.05);
+  --shadow-sm:
+    0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.05), 0rem 1px 2px -1.125px
+    hsl(220 15% 15% / 0.05);
+  --shadow:
+    0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.05), 0rem 1px 2px -1.125px
+    hsl(220 15% 15% / 0.05);
+  --shadow-md:
+    0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.05), 0rem 2px 4px -1.125px
+    hsl(220 15% 15% / 0.05);
+  --shadow-lg:
+    0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.05), 0rem 4px 6px -1.125px
+    hsl(220 15% 15% / 0.05);
+  --shadow-xl:
+    0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.05), 0rem 8px 10px
+    -1.125px hsl(220 15% 15% / 0.05);
   --shadow-2xl: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 15% / 0.13);
   --tracking-normal: normal;
 }
 
 .dark {
   --background: oklch(0.2612 0.0154 264.2613);
-  --foreground: oklch(0.9266 0.0110 67.6900);
+  --foreground: oklch(0.9266 0.011 67.69);
   --card: oklch(0.2096 0.0109 264.3076);
-  --card-foreground: oklch(0.9266 0.0110 67.6900);
+  --card-foreground: oklch(0.9266 0.011 67.69);
   --popover: oklch(0.2612 0.0154 264.2613);
-  --popover-foreground: oklch(0.9266 0.0110 67.6900);
-  --primary: oklch(0.7694 0.0810 75.4200);
+  --popover-foreground: oklch(0.9266 0.011 67.69);
+  --primary: oklch(0.7694 0.081 75.42);
   --primary-foreground: oklch(0.2612 0.0154 264.2613);
-  --secondary: oklch(0.3617 0.0158 264.3570);
-  --secondary-foreground: oklch(0.9266 0.0110 67.6900);
+  --secondary: oklch(0.3617 0.0158 264.357);
+  --secondary-foreground: oklch(0.9266 0.011 67.69);
   --muted: oklch(0.3138 0.0131 264.3681);
-  --muted-foreground: oklch(0.6888 0.0190 67.5046);
+  --muted-foreground: oklch(0.6888 0.019 67.5046);
   --accent: oklch(0.7041 0.1023 74.0748);
   --accent-foreground: oklch(0.9854 0.0022 67.7975);
   --destructive: oklch(0.5714 0.2121 27.2502);
   --border: oklch(0.4081 0.0184 264.3488);
   --input: oklch(0.2096 0.0109 264.3076);
-  --ring: oklch(0.7694 0.0810 75.4200);
-  --chart-1: oklch(0.7694 0.0810 75.4200);
+  --ring: oklch(0.7694 0.081 75.42);
+  --chart-1: oklch(0.7694 0.081 75.42);
   --chart-2: oklch(0.6931 0.1535 156.0372);
   --chart-3: oklch(0.7218 0.1129 233.1408);
-  --chart-4: oklch(0.7240 0.1450 350.0206);
+  --chart-4: oklch(0.724 0.145 350.0206);
   --chart-5: oklch(0.8012 0.1378 81.5452);
   --sidebar: oklch(0.1546 0.0058 264.3896);
-  --sidebar-foreground: oklch(0.9266 0.0110 67.6900);
-  --sidebar-primary: oklch(0.7694 0.0810 75.4200);
+  --sidebar-foreground: oklch(0.9266 0.011 67.69);
+  --sidebar-primary: oklch(0.7694 0.081 75.42);
   --sidebar-primary-foreground: oklch(0.2612 0.0154 264.2613);
   --sidebar-accent: oklch(0.2096 0.0109 264.3076);
-  --sidebar-accent-foreground: oklch(0.9266 0.0110 67.6900);
+  --sidebar-accent-foreground: oklch(0.9266 0.011 67.69);
   --sidebar-border: oklch(0.3138 0.0131 264.3681);
-  --sidebar-ring: oklch(0.7694 0.0810 75.4200);
+  --sidebar-ring: oklch(0.7694 0.081 75.42);
   --destructive-foreground: oklch(0.2612 0.0154 264.2613);
   --radius: 0.375rem;
-  --font-sans: 'Merriweather Sans', sans-serif;
-  --font-serif: 'Merriweather', serif;
-  --font-mono: 'Fira Code', monospace;
+  --font-sans: "Merriweather Sans", sans-serif;
+  --font-serif: "Merriweather", serif;
+  --font-mono: "Fira Code", monospace;
   --shadow-color: hsl(220 15% 5%);
   --shadow-opacity: 0.4;
   --shadow-blur: 0.5rem;
@@ -169,14 +179,24 @@
   --shadow-offset-y: 0.25rem;
   --letter-spacing: normal;
   --spacing: 0.25rem;
-  --shadow-2xs: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.20);
-  --shadow-xs: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.20);
-  --shadow-sm: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.40), 0rem 1px 2px -1.125px hsl(220 15% 5% / 0.40);
-  --shadow: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.40), 0rem 1px 2px -1.125px hsl(220 15% 5% / 0.40);
-  --shadow-md: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.40), 0rem 2px 4px -1.125px hsl(220 15% 5% / 0.40);
-  --shadow-lg: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.40), 0rem 4px 6px -1.125px hsl(220 15% 5% / 0.40);
-  --shadow-xl: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.40), 0rem 8px 10px -1.125px hsl(220 15% 5% / 0.40);
-  --shadow-2xl: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 1.00);
+  --shadow-2xs: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.2);
+  --shadow-xs: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.2);
+  --shadow-sm:
+    0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.4), 0rem 1px 2px -1.125px
+    hsl(220 15% 5% / 0.4);
+  --shadow:
+    0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.4), 0rem 1px 2px -1.125px
+    hsl(220 15% 5% / 0.4);
+  --shadow-md:
+    0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.4), 0rem 2px 4px -1.125px
+    hsl(220 15% 5% / 0.4);
+  --shadow-lg:
+    0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.4), 0rem 4px 6px -1.125px
+    hsl(220 15% 5% / 0.4);
+  --shadow-xl:
+    0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 0.4), 0rem 8px 10px -1.125px
+    hsl(220 15% 5% / 0.4);
+  --shadow-2xl: 0rem 0.25rem 0.5rem -0.125rem hsl(220 15% 5% / 1);
 }
 
 @layer base {
@@ -186,5 +206,10 @@
   body {
     @apply bg-background text-foreground;
     letter-spacing: var(--tracking-normal);
+  }
+
+  .gradient-mask-t-0 {
+    -webkit-mask-image: linear-gradient(#0000, #000);
+    mask-image: linear-gradient(#0000, #000);
   }
 }
