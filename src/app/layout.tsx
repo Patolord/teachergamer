@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/header";
+import { ConditionalTopbar } from "@/components/ConditionalTopbar";
+import { ConfigProvider } from "@/contexts/config";
 
 export const metadata: Metadata = {
   title: "",
@@ -14,9 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-black text-white">
-        <Header />
-        {children}
+      <body className="bg-white text-black">
+        <ConfigProvider>
+          <ConditionalTopbar />
+          {children}
+        </ConfigProvider>
       </body>
     </html>
   );
