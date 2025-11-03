@@ -335,6 +335,7 @@ export default function SplashCursor({
       }
 
       bind() {
+        // biome-ignore lint/correctness/useHookAtTopLevel: WebGL API method, not a React hook
         if (this.program) gl.useProgram(this.program);
       }
     }
@@ -381,6 +382,7 @@ export default function SplashCursor({
 
       bind() {
         if (this.activeProgram) {
+          // biome-ignore lint/correctness/useHookAtTopLevel: WebGL API method, not a React hook
           gl.useProgram(this.activeProgram);
         }
       }
