@@ -1,7 +1,5 @@
-export default function About() {
-  return (
-    <div>
-      <h1>About</h1>
-    </div>
-  );
+import TelescopeScroll from "./_components/TelescopeScroll";
+
+export default function Page() {
+  return <TelescopeScroll />;
 }
