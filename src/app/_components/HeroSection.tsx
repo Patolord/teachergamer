@@ -4,7 +4,7 @@ import ScrollIndicator from "./ScrollIndicator";
 
 export default function HeroSection() {
   return (
-    <div className="relative w-full min-h-screen flex flex-col items-center justify-center gap-6">
+    <div className="relative w-full min-h-screen flex flex-col items-center justify-center gap-6 bg-gradient-to-b from-black to-gray-900">
       <HeroBackground imageUrl="/section-0-bg.png" />
 
       <HeroContent
