@@ -63,6 +63,7 @@ export default function ScrollSlider({ children }: ScrollSliderProps) {
       if (slideCount === 0) return;
 
       let activeSlide = 0;
+      let previousSlide = 0;
       const pinDistance = window.innerHeight * (slideCount - 1);
 
       // Get all slide elements
@@ -132,11 +133,51 @@ export default function ScrollSlider({ children }: ScrollSliderProps) {
       function animateNewSlide(index: number) {
         if (!slideElements) return;
 
-        // Show/hide slides instantly - no transitions
+        // Crossfade between slides
         Array.from(slideElements).forEach((slide, i) => {
-          gsap.set(slide as HTMLElement, {
-            opacity: i === index ? 1 : 0,
-          });
+          if (i === index) {
+            // Kill any existing animations on this slide
+            gsap.killTweensOf(slide);
+            // Set new slide on top with higher z-index and animate opacity
+            gsap.set(slide as HTMLElement, {
+              zIndex: 2,
+            });
+            gsap.fromTo(
+              slide as HTMLElement,
+              { opacity: 0 },
+              {
+                opacity: 1,
+                duration: 0.6,
+                ease: "power2.out",
+                overwrite: true,
+                immediateRender: true,
+                onComplete: () => {
+                  // After the new slide has faded in, hide all other slides
+                  Array.from(slideElements).forEach((otherSlide, j) => {
+                    if (j !== index) {
+                      gsap.set(otherSlide as HTMLElement, {
+                        opacity: 0,
+                        zIndex: 0,
+                      });
+                    }
+                  });
+                },
+              },
+            );
+          } else if (i === previousSlide) {
+            // Keep the previous active slide visible during the transition for crossfade
+            // Set it below the new slide
+            gsap.set(slide as HTMLElement, {
+              opacity: 1,
+              zIndex: 1,
+            });
+          } else {
+            // Hide all other slides instantly
+            gsap.set(slide as HTMLElement, {
+              opacity: 0,
+              zIndex: 0,
+            });
+          }
         });
 
         animateIndicators(index);
@@ -185,6 +226,7 @@ export default function ScrollSlider({ children }: ScrollSliderProps) {
       Array.from(slideElements).forEach((slide, i) => {
         gsap.set(slide as HTMLElement, {
           opacity: i === 0 ? 1 : 0,
+          zIndex: i === 0 ? 1 : 0,
         });
       });
 
@@ -210,6 +252,7 @@ export default function ScrollSlider({ children }: ScrollSliderProps) {
           );
 
           if (activeSlide !== currentSlide) {
+            previousSlide = activeSlide;
             activeSlide = currentSlide;
             animateNewSlide(activeSlide);
           }

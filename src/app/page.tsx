@@ -1,3 +1,4 @@
+import SplashCursor from "@/components/SplashCursor";
 import ExampleScrollSlider from "./_components/ExampleScrollSlider";
 import HeroSection from "./_components/HeroSection";
 export default function Home() {
@@ -5,6 +6,7 @@ export default function Home() {
     <div>
       <HeroSection />
       <ExampleScrollSlider />
+      <SplashCursor />
     </div>
   );
 }
