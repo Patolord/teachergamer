@@ -1,28 +1,32 @@
+import Script from "next/script";
+
 export default function SubstackSection() {
   return (
-    <section className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-violet-900 via-purple-900 to-fuchsia-900">
-      <div className="container mx-auto px-8 py-16 max-w-4xl text-center">
-        <h2 className="text-6xl font-bold text-white mb-8 max-[1000px]:text-4xl">
-          Subscribe to Our Newsletter
+    <section className="bg-black py-16">
+      <div className="container mx-auto px-8 max-w-4xl">
+        <h2 className="text-5xl font-semibold text-white mb-12 text-center max-[1000px]:text-3xl tracking-tight">
+          Latest from Substack
         </h2>
-        <p className="text-white/90 text-xl mb-12 max-w-2xl mx-auto">
-          Get weekly insights, teaching tips, and exclusive content delivered
-          straight to your inbox.
-        </p>
-        <div className="max-w-md mx-auto">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="w-full px-6 py-4 rounded-lg mb-4 text-gray-900 text-lg"
-          />
-          <button
-            type="button"
-            className="w-full px-8 py-4 bg-white text-purple-900 rounded-lg font-bold text-xl hover:bg-white/90 transition"
+
+        <div className="substack-post-embed">
+          <p lang="en">
+            Teacher-Gamer - Summer Starts with a Michael Franti interview by
+            Zachary Reznichek TeacherGamer
+          </p>
+          <p>
+            New Pod featuring Michael Franti - New Da Vinci Life Skills Website
+            - Building an RPG Hub in your Community - TG Trainings coming Sept 8
+            - Fun Offline with Brazil's RPG Dojo
+          </p>
+          <a
+            data-post-link
+            href="https://zacharyreznichek.substack.com/p/teacher-gamer-summer-starts-with"
           >
-            Subscribe on Substack
-          </button>
+            Read on Substack
+          </a>
         </div>
       </div>
+      <Script async src="https://substack.com/embedjs/embed.js" />
     </section>
   );
 }
