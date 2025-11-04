@@ -1,18 +1,31 @@
+import { forwardRef } from "react";
+
 type HeroBackgroundProps = {
   imageUrl: string;
 };
 
-export default function HeroBackground({ imageUrl }: HeroBackgroundProps) {
-  return (
-    <>
-      {/* Background Image */}
+const HeroBackground = forwardRef<HTMLDivElement, HeroBackgroundProps>(
+  ({ imageUrl }, ref) => {
+    return (
       <div
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url('${imageUrl}')` }}
-      />
+        ref={ref}
+        className="hero-img relative w-full h-full"
+        style={{
+          transform: "translateZ(1000px)",
+          opacity: 0,
+          willChange: "transform, opacity",
+        }}
+      >
+        <img
+          src={imageUrl}
+          alt="Hero background"
+          className="w-full h-full object-cover"
+        />
+      </div>
+    );
+  },
+);
 
-      {/* Overlay */}
-      <div className="absolute inset-0 z-10 bg-black/50" />
-    </>
-  );
-}
+HeroBackground.displayName = "HeroBackground";
+
+export default HeroBackground;
