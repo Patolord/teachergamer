@@ -19,11 +19,12 @@ export default function ExampleScrollSlider() {
   return (
     <ScrollSlider>
       <TestimonialsSection />
-      <CoursesSection />
+      <ShopSection />
       <CalendarBookingSection />
       <SubstackSection />
       <ResearchSection />
-      <ShopSection />
+
+      <CoursesSection />
       <ContactSection />
     </ScrollSlider>
   );

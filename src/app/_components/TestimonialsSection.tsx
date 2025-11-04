@@ -1,33 +1,221 @@
-export default function TestimonialsSection() {
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+import "./Testimonials.css";
+
+type message = {
+  id: number;
+  avatar?: string;
+  text?: string;
+  handle?: string;
+  image?: string;
+};
+
+const Testimonials = () => {
+  const messages = [
+    {
+      id: 1,
+      avatar:
+        "https://pbs.twimg.com/profile_images/1794450494686932992/wqRqF4dt_400x400.jpg",
+      text: "Really impressed by https://reactbits.dev. Check it out. The Splash Cursor effect is amazing.",
+      handle: "@makwanadeepam",
+    },
+    {
+      id: 2,
+      avatar:
+        "https://pbs.twimg.com/profile_images/1593304942210478080/TUYae5z7_400x400.jpg",
+      text: "Everything about this is next level: the components, the registry, dynamic items.",
+      handle: "@shadcn",
+    },
+    {
+      id: 3,
+      image: "/Teacher-book-kids-costumes-768x512-1.jpg",
+    },
+    {
+      id: 4,
+      avatar:
+        "https://pbs.twimg.com/profile_images/1722358890807861248/75S7CB3G_400x400.jpg",
+      text: "React Bits: A stellar collection of React components to make your landing pages shine ✨",
+      handle: "@gregberge_",
+    },
+    {
+      id: 5,
+      avatar:
+        "https://pbs.twimg.com/profile_images/1554006663853592576/Gxtolzbo_400x400.jpg",
+      text: "Literally the coolest react library in react -",
+      handle: "@Logreg_n_coffee",
+    },
+    {
+      id: 6,
+      image: "/kids-at-green-school-making-game-rules.jpg",
+    },
+    {
+      id: 7,
+      avatar:
+        "https://pbs.twimg.com/profile_images/1724192049002340352/-tood-4D_400x400.jpg",
+      text: "React Bits has got to be the most artistic ui component lib I have seen in a while 🤌",
+      handle: "@GibsonSMurray",
+    },
+    {
+      id: 8,
+      avatar:
+        "https://pbs.twimg.com/profile_images/1920165535351742464/CJU2uWMU_400x400.jpg",
+      text: "Was scrolling X, I saw a post regarding UI library and got to know about React Bits and its just wow, the components are incredibly well designed! Really loved the overall feel and quality.",
+      handle: "@irohandev",
+    },
+    {
+      id: 9,
+      image: "/table.png",
+    },
+  ];
+
+  const row1Messages = messages.slice(0, 3);
+  const row2Messages = messages.slice(3, 6);
+  const row3Messages = messages.slice(6, 9);
+
+  const MessageCard = ({ message }: { message: message }) => {
+    if (message.image) {
+      return (
+        <div
+          className="flex-shrink-0
+          w-[380px] min-h-[120px]
+          md:w-[320px] md:min-h-[110px]
+          border border-yellow-500
+          rounded-2xl overflow-hidden cursor-pointer
+          will-change-transform
+          transition-transform transition-shadow duration-200 ease-in-out
+          hover:border-yellow-500
+          hover:-translate-y-1
+          hover:shadow-[0_6px_18px_rgba(234,179,8,0.4)]"
+        >
+          <img
+            src={message.image}
+            alt="Testimonial"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className="flex-shrink-0
+        w-[380px] min-h-[120px]
+        md:w-[320px] md:min-h-[110px] md:p-5
+        bg-white border border-yellow-500
+        rounded-2xl p-6 cursor-pointer whitespace-normal
+        will-change-transform
+        transition-transform transition-shadow transition-colors duration-200 ease-in-out
+        hover:bg-yellow-500 hover:border-yellow-500
+        hover:-translate-y-1
+        hover:shadow-[0_6px_18px_yellow-500]"
+      >
+        <div className="flex flex-col gap-4 h-full">
+          <p className="text-black text-[0.95rem] leading-[1.6] m-0 flex-grow whitespace-normal">
+            {message.text}
+          </p>
+          <div className="flex items-center gap-3">
+            <img
+              src={message.avatar}
+              alt="Avatar"
+              className="w-10 h-10 rounded-full object-cover border-2 border-yellow-500"
+            />
+            <span className="text-black text-sm font-medium">
+              {message.handle}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const MarqueeRow = ({
+    messages,
+    direction = "left",
+    speed = 30,
+  }: {
+    messages: message[];
+    direction: "left" | "right";
+    speed: number;
+  }) => {
+    const duplicatedMessages = [...messages, ...messages];
+
+    return (
+      <div className="w-full overflow-visible relative mb-5 py-[2px] last:mb-0">
+        <div
+          className={`testimonial-marquee testimonial-marquee-${direction}`}
+          style={{ animationDuration: `${speed}s`, willChange: "transform" }}
+        >
+          {duplicatedMessages.map((message, index) => (
+            <MessageCard key={`${message.id}-${index}`} message={message} />
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const marqueeContainerRef = useRef(null);
+
+  useEffect(() => {
+    const container = marqueeContainerRef.current as unknown as HTMLElement;
+    if (!container || typeof IntersectionObserver === "undefined") return;
+
+    const rows = Array.from(container.querySelectorAll(".testimonial-row"));
+    if (rows.length === 0) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const marquee = entry.target.querySelector(
+            ".testimonial-marquee",
+          ) as HTMLElement;
+          if (marquee) {
+            marquee.style.animationPlayState = entry.isIntersecting
+              ? "running"
+              : "paused";
+          }
+        });
+      },
+      { root: null, threshold: 0.1 },
+    );
+
+    rows.forEach((r) => {
+      io.observe(r);
+    });
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <section className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
-      <div className="container mx-auto px-8 py-16 max-w-6xl">
-        <h2 className="text-6xl font-bold text-white mb-12 text-center max-[1000px]:text-4xl">
-          What Our Students Say
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-            <p className="text-white/90 mb-4 italic">
-              "Amazing learning experience! The interactive approach makes
-              complex topics easy to understand."
-            </p>
-            <p className="text-white font-semibold">- Sarah M.</p>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-            <p className="text-white/90 mb-4 italic">
-              "The gamification elements keep my kids engaged and excited about
-              learning."
-            </p>
-            <p className="text-white font-semibold">- John D.</p>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-            <p className="text-white/90 mb-4 italic">
-              "Best educational platform I've come across. Highly recommended!"
-            </p>
-            <p className="text-white font-semibold">- Emily R.</p>
-          </div>
+    <section className="w-full py-20 relative overflow-x-hidden">
+      {/* Imagem de fundo */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/homepage.png"
+          alt="Background"
+          fill
+          className="object-cover"
+          quality={90}
+          priority
+        />
+        {/* Overlay opcional para melhorar legibilidade */}
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
+
+      {/* Conteúdo */}
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
+        <div className="text-center mb-12">
+          <h3 className="text-4xl font-semibold tracking-tight mb-4 bg-[linear-gradient(135deg,#fff_0%,#c47020_20%,#d09a11_40%,#fff_100%)] bg-[length:200%_200%] bg-clip-text text-transparent text-center inline-block whitespace-nowrap animate-gradientShift">
+            Testimonials
+          </h3>
+        </div>
+
+        <div className="relative w-full max-w-[1200px] mx-auto overflow-hidden before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-[200px] before:z-10 before:pointer-events-none before:bg-gradient-to-r before:from-white before:to-transparent after:content-[''] after:absolute after:inset-y-0 after:right-0 after:w-[200px] after:z-10 after:pointer-events-none after:bg-gradient-to-l after:from-white after:to-transparent">
+          <MarqueeRow messages={row1Messages} direction="left" speed={40} />
+          <MarqueeRow messages={row2Messages} direction="right" speed={35} />
+          <MarqueeRow messages={row3Messages} direction="left" speed={40} />
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default Testimonials;
