@@ -82,7 +82,7 @@ const Testimonials = () => {
           border border-yellow-500
           rounded-2xl overflow-hidden cursor-pointer
           will-change-transform
-          transition-transform transition-shadow duration-200 ease-in-out
+          transition-transform duration-200 ease-in-out
           hover:border-yellow-500
           hover:-translate-y-1
           hover:shadow-[0_6px_18px_rgba(234,179,8,0.4)]"
@@ -104,7 +104,7 @@ const Testimonials = () => {
         bg-white border border-yellow-500
         rounded-2xl p-6 cursor-pointer whitespace-normal
         will-change-transform
-        transition-transform transition-shadow transition-colors duration-200 ease-in-out
+        transition-transform duration-200 ease-in-out
         hover:bg-yellow-500 hover:border-yellow-500
         hover:-translate-y-1
         hover:shadow-[0_6px_18px_yellow-500]"
@@ -196,8 +196,6 @@ const Testimonials = () => {
           quality={90}
           priority
         />
-        {/* Overlay opcional para melhorar legibilidade */}
-        <div className="absolute inset-0 bg-black/40" />
       </div>
 
       {/* Conteúdo */}
@@ -208,7 +206,7 @@ const Testimonials = () => {
           </h3>
         </div>
 
-        <div className="relative w-full max-w-[1200px] mx-auto overflow-hidden before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-[200px] before:z-10 before:pointer-events-none before:bg-gradient-to-r before:from-white before:to-transparent after:content-[''] after:absolute after:inset-y-0 after:right-0 after:w-[200px] after:z-10 after:pointer-events-none after:bg-gradient-to-l after:from-white after:to-transparent">
+        <div className="relative w-full max-w-[1500px] mx-auto overflow-hidden before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-[200px] before:z-10 before:pointer-events-none before:bg-gradient-to-r before:from-[#2F1A0F] before:to-transparent after:content-[''] after:absolute after:inset-y-0 after:right-0 after:w-[200px] after:z-10 after:pointer-events-none after:bg-gradient-to-l after:from-[#2F1A0F] after:to-transparent">
           <MarqueeRow messages={row1Messages} direction="left" speed={40} />
           <MarqueeRow messages={row2Messages} direction="right" speed={35} />
           <MarqueeRow messages={row3Messages} direction="left" speed={40} />
