@@ -139,6 +139,9 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
   body {
     @apply bg-background text-foreground;
@@ -154,45 +157,12 @@
     font-family: var(--font-geist-mono);
   }
 }
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-body {
-  font-family: "Inter", sans-serif;
-}
-
-nav {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem;
-  z-index: 2;
-}
-
-nav p {
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  color: #fff;
-}
-
-nav .logo {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0.25rem;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(20px);
-  padding: 0.5rem 1rem;
-  overflow: hidden;
-}
-
-section {
-  position: relative;
-  width: 100%;
-  height: 100svh;
-  overflow: hidden;
+@layer components {
+  section {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+  }
 }
