@@ -16,15 +16,17 @@ const Testimonials = () => {
       id: 1,
       avatar:
         "https://pbs.twimg.com/profile_images/1794450494686932992/wqRqF4dt_400x400.jpg",
-      text: "Really impressed by https://reactbits.dev. Check it out. The Splash Cursor effect is amazing.",
-      handle: "@makwanadeepam",
+      text: "Our son Hartley has a greater level of confidence in his skill to take initiative and control over his actions. He also notices that he has a more active and aware mind after the class since he is making choices constantly. The focus and effort that is put towards the development of his character has deepened his awareness of himself and his ability to articulate this in his writing and imaginative play both at home and at school. In an age where devices have taken over, we have been privileged to find a program that both honors and endorses the deep reservoir of the human imagination",
+
+      handle: "@Heidi (mother of Hartley age 12)"
+      ,
     },
     {
       id: 2,
       avatar:
         "https://pbs.twimg.com/profile_images/1593304942210478080/TUYae5z7_400x400.jpg",
-      text: "Everything about this is next level: the components, the registry, dynamic items.",
-      handle: "@shadcn",
+      text: "It’s really interesting to adapt your play-style to your characters, especially as they sometimes contrast your own personality. Though the game is based around fantasy, you end up learning how to think realistically and critically. Honestly, my only complaint is that the classes don’t go on for longer. [classes are 4 hours long]",
+      handle: "@Shanti (age 15)",
     },
     {
       id: 3,
@@ -34,15 +36,15 @@ const Testimonials = () => {
       id: 4,
       avatar:
         "https://pbs.twimg.com/profile_images/1722358890807861248/75S7CB3G_400x400.jpg",
-      text: "React Bits: A stellar collection of React components to make your landing pages shine ✨",
-      handle: "@gregberge_",
+      text: "I learnt the importance of evaluating a situation before jumping to conclusions, the helpfulness of working with others whom have skills I do not possess, and how fun it is to blindly run into the hands of danger. It’s a blanket of fun, wrapped in a layer of unsuspecting danger, and bundled, finally, in a…",
+      handle: "@Kaesha (homeschooler)",
     },
     {
       id: 5,
       avatar:
         "https://pbs.twimg.com/profile_images/1554006663853592576/Gxtolzbo_400x400.jpg",
-      text: "Literally the coolest react library in react -",
-      handle: "@Logreg_n_coffee",
+      text: "I love going on an adventure and discovering new things. It’s fun. You can use spells, craft and fight. You’ll probably freak out when you die",
+      handle: "@Eron (age 10)",
     },
     {
       id: 6,
@@ -52,15 +54,15 @@ const Testimonials = () => {
       id: 7,
       avatar:
         "https://pbs.twimg.com/profile_images/1724192049002340352/-tood-4D_400x400.jpg",
-      text: "React Bits has got to be the most artistic ui component lib I have seen in a while 🤌",
-      handle: "@GibsonSMurray",
+      text: "It’s fun and we learn lots of things, like strategy, team work, assessing the situation and making terrains",
+      handle: "@Julian (age 10)",
     },
     {
       id: 8,
       avatar:
         "https://pbs.twimg.com/profile_images/1920165535351742464/CJU2uWMU_400x400.jpg",
-      text: "Was scrolling X, I saw a post regarding UI library and got to know about React Bits and its just wow, the components are incredibly well designed! Really loved the overall feel and quality.",
-      handle: "@irohandev",
+      text: "I learned to try new things. Originally I thought I would not like this thematic but actually I learnt a lot about trying new things",
+      handle: "@Eve (age 12)",
     },
     {
       id: 9,
