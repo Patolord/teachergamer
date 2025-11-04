@@ -4,7 +4,6 @@ import "./Testimonials.css";
 
 type message = {
   id: number;
-  avatar?: string;
   text?: string;
   handle?: string;
   image?: string;
@@ -14,17 +13,12 @@ const Testimonials = () => {
   const messages = [
     {
       id: 1,
-      avatar:
-        "https://pbs.twimg.com/profile_images/1794450494686932992/wqRqF4dt_400x400.jpg",
       text: "Our son Hartley has a greater level of confidence in his skill to take initiative and control over his actions. He also notices that he has a more active and aware mind after the class since he is making choices constantly. The focus and effort that is put towards the development of his character has deepened his awareness of himself and his ability to articulate this in his writing and imaginative play both at home and at school. In an age where devices have taken over, we have been privileged to find a program that both honors and endorses the deep reservoir of the human imagination",
 
-      handle: "@Heidi (mother of Hartley age 12)"
-      ,
+      handle: "@Heidi (mother of Hartley age 12)",
     },
     {
       id: 2,
-      avatar:
-        "https://pbs.twimg.com/profile_images/1593304942210478080/TUYae5z7_400x400.jpg",
       text: "It’s really interesting to adapt your play-style to your characters, especially as they sometimes contrast your own personality. Though the game is based around fantasy, you end up learning how to think realistically and critically. Honestly, my only complaint is that the classes don’t go on for longer. [classes are 4 hours long]",
       handle: "@Shanti (age 15)",
     },
@@ -34,15 +28,11 @@ const Testimonials = () => {
     },
     {
       id: 4,
-      avatar:
-        "https://pbs.twimg.com/profile_images/1722358890807861248/75S7CB3G_400x400.jpg",
       text: "I learnt the importance of evaluating a situation before jumping to conclusions, the helpfulness of working with others whom have skills I do not possess, and how fun it is to blindly run into the hands of danger. It’s a blanket of fun, wrapped in a layer of unsuspecting danger, and bundled, finally, in a…",
       handle: "@Kaesha (homeschooler)",
     },
     {
       id: 5,
-      avatar:
-        "https://pbs.twimg.com/profile_images/1554006663853592576/Gxtolzbo_400x400.jpg",
       text: "I love going on an adventure and discovering new things. It’s fun. You can use spells, craft and fight. You’ll probably freak out when you die",
       handle: "@Eron (age 10)",
     },
@@ -52,15 +42,11 @@ const Testimonials = () => {
     },
     {
       id: 7,
-      avatar:
-        "https://pbs.twimg.com/profile_images/1724192049002340352/-tood-4D_400x400.jpg",
       text: "It’s fun and we learn lots of things, like strategy, team work, assessing the situation and making terrains",
       handle: "@Julian (age 10)",
     },
     {
       id: 8,
-      avatar:
-        "https://pbs.twimg.com/profile_images/1920165535351742464/CJU2uWMU_400x400.jpg",
       text: "I learned to try new things. Originally I thought I would not like this thematic but actually I learnt a lot about trying new things",
       handle: "@Eve (age 12)",
     },
@@ -70,9 +56,8 @@ const Testimonials = () => {
     },
   ];
 
-  const row1Messages = messages.slice(0, 3);
-  const row2Messages = messages.slice(3, 6);
-  const row3Messages = messages.slice(6, 9);
+  const row1Messages = messages.slice(0, 5);
+  const row2Messages = messages.slice(5, 9);
 
   const MessageCard = ({ message }: { message: message }) => {
     if (message.image) {
@@ -116,11 +101,6 @@ const Testimonials = () => {
             {message.text}
           </p>
           <div className="flex items-center gap-3">
-            <img
-              src={message.avatar}
-              alt="Avatar"
-              className="w-10 h-10 rounded-full object-cover border-2 border-yellow-500"
-            />
             <span className="text-black text-sm font-medium">
               {message.handle}
             </span>
@@ -211,7 +191,6 @@ const Testimonials = () => {
         <div className="relative w-full max-w-[1500px] mx-auto overflow-hidden before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-[200px] before:z-10 before:pointer-events-none before:bg-gradient-to-r before:from-[#2F1A0F] before:to-transparent after:content-[''] after:absolute after:inset-y-0 after:right-0 after:w-[200px] after:z-10 after:pointer-events-none after:bg-gradient-to-l after:from-[#2F1A0F] after:to-transparent">
           <MarqueeRow messages={row1Messages} direction="left" speed={40} />
           <MarqueeRow messages={row2Messages} direction="right" speed={35} />
-          <MarqueeRow messages={row3Messages} direction="left" speed={40} />
         </div>
       </div>
     </section>
