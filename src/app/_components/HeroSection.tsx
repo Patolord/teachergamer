@@ -1,6 +1,6 @@
 import HeroBackground from "./HeroBackground";
 import HeroContent from "./HeroContent";
-import ScrollIndicator from "./ScrollIndicator";
+import ScrollDownIndicator from "./ScrollDownIndicator";
 
 export default function HeroSection() {
   return (
@@ -13,7 +13,7 @@ export default function HeroSection() {
         buttonText="Get Started Now"
       />
 
-      <ScrollIndicator />
+      <ScrollDownIndicator />
     </div>
   );
 }

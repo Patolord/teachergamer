@@ -5,8 +5,6 @@ import { useCallback, useEffect, useState } from "react";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 
-import { ThemeToggle } from "@/components/themetoggle";
-
 const menu = [
   {
     title: "Home",
@@ -34,7 +32,7 @@ const menu = [
   },
 ] as const;
 
-export const Topbar = () => {
+export const Header = () => {
   const [scrollPosition, setScrollPosition] = useState<number>(0);
 
   const handleScroll = useCallback(() => {
@@ -114,8 +112,6 @@ export const Topbar = () => {
             </Link>
           ))}
         </div>
-
-        <ThemeToggle className="btn btn-sm btn-ghost btn-circle" />
       </div>
     </div>
   );
