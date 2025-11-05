@@ -39,7 +39,7 @@ const Navigation = forwardRef<HTMLElement>((props, ref) => {
       <div className="flex-1 flex gap-6 justify-end">
         <div className="px-6 py-3 rounded bg-white">
           <a href="#login" className="text-xs font-medium uppercase text-black">
-            Login
+            Training
           </a>
         </div>
         <div className="px-6 py-3 rounded bg-black">
@@ -47,7 +47,7 @@ const Navigation = forwardRef<HTMLElement>((props, ref) => {
             href="#signup"
             className="text-xs font-medium uppercase text-white"
           >
-            Sign Up
+            Buy Book
           </a>
         </div>
       </div>
