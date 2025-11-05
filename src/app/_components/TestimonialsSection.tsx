@@ -171,7 +171,7 @@ const Testimonials = () => {
       {/* Imagem de fundo */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/homepage.png"
+          src="/img.png"
           alt="Background"
           fill
           className="object-cover"
@@ -188,7 +188,7 @@ const Testimonials = () => {
           </h3>
         </div>
 
-        <div className="relative w-full max-w-[1500px] mx-auto overflow-hidden before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-[200px] before:z-10 before:pointer-events-none before:bg-gradient-to-r before:from-[#2F1A0F] before:to-transparent after:content-[''] after:absolute after:inset-y-0 after:right-0 after:w-[200px] after:z-10 after:pointer-events-none after:bg-gradient-to-l after:from-[#2F1A0F] after:to-transparent">
+        <div className="relative w-full max-w-[1500px] mx-auto overflow-hidden before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-[200px] before:z-10 before:pointer-events-none before:bg-gradient-to-r before:from-[#fff] before:to-transparent after:content-[''] after:absolute after:inset-y-0 after:right-0 after:w-[200px] after:z-10 after:pointer-events-none after:bg-gradient-to-l after:from-[#fff] after:to-transparent">
           <MarqueeRow messages={row1Messages} direction="left" speed={40} />
           <MarqueeRow messages={row2Messages} direction="right" speed={35} />
         </div>
