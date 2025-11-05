@@ -77,12 +77,15 @@ export function useHeroScrollAnimation() {
     };
 
     const setupScrollTrigger = () => {
+      const scrollHeight = window.innerHeight * 10;
+
       ScrollTrigger.create({
         trigger: ".hero",
         start: "top top",
-        end: `+=${window.innerHeight * 7}px`,
+        end: `+=${scrollHeight}`,
         pin: true,
-        pinSpacing: true,
+        markers: true,
+        pinSpacing: false,
         scrub: 1,
         onUpdate: (self) => {
           const progress = self.progress;

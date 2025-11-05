@@ -4,10 +4,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
 
 import type { ReactNode } from "react";
-import { Children, useEffect, useRef } from "react";
+import { Children, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -20,7 +19,6 @@ export default function ScrollSlider({ children }: ScrollSliderProps) {
   const slidesContainerRef = useRef<HTMLDivElement>(null);
   const sliderIndicesRef = useRef(null);
   const progressBarRef = useRef(null);
-  const lenisRef = useRef<Lenis | null>(null);
 
   const childrenArray = Children.toArray(children);
   const slideCount = childrenArray.length;
@@ -30,33 +28,6 @@ export default function ScrollSlider({ children }: ScrollSliderProps) {
     child,
     key: `scroll-slide-${index}-${slideCount}`,
   }));
-
-  // Initialize Lenis smooth scroll
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - 2 ** (-10 * t)),
-      orientation: "vertical",
-      smoothWheel: true,
-    });
-
-    lenisRef.current = lenis;
-
-    lenis.on("scroll", ScrollTrigger.update);
-
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
-    gsap.ticker.lagSmoothing(0);
-
-    return () => {
-      lenis.destroy();
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
-    };
-  }, []);
 
   useGSAP(
     () => {
@@ -239,6 +210,7 @@ export default function ScrollSlider({ children }: ScrollSliderProps) {
         scrub: true,
         pin: true,
         pinSpacing: true,
+        invalidateOnRefresh: true,
         onUpdate: (self) => {
           if (progressBarRef.current) {
             gsap.set(progressBarRef.current, {
