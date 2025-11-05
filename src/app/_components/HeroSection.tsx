@@ -52,7 +52,7 @@ export default function HeroSection() {
             perspective: "1000px",
           }}
         >
-          <HeroBackground ref={heroImgRef} imageUrl="/section-0-bg.png" />
+          <HeroBackground ref={heroImgRef} imageUrl="/table.png" />
         </div>
       </section>
     </>
