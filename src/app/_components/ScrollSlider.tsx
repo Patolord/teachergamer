@@ -5,66 +5,53 @@ import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import type { ReactNode } from "react";
-import { Children, useRef } from "react";
+import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 interface ScrollSliderProps {
-  children: ReactNode;
+  sectionCount: number;
 }
 
-export default function ScrollSlider({ children }: ScrollSliderProps) {
-  const sliderRef = useRef(null);
-  const slidesContainerRef = useRef<HTMLDivElement>(null);
+export default function ScrollSlider({ sectionCount }: ScrollSliderProps) {
   const sliderIndicesRef = useRef(null);
   const progressBarRef = useRef(null);
-
-  const childrenArray = Children.toArray(children);
-  const slideCount = childrenArray.length;
-
-  // Generate stable keys for slides based on their content
-  const slidesWithKeys = childrenArray.map((child, index) => ({
-    child,
-    key: `scroll-slide-${index}-${slideCount}`,
-  }));
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scopeRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      if (slideCount === 0) return;
+      if (sectionCount === 0) return;
 
-      let activeSlide = 0;
-      let previousSlide = 0;
-      const pinDistance = window.innerHeight * (slideCount - 1);
+      // Query all section elements from document (not scoped)
+      const sectionElements = gsap.utils.toArray<HTMLElement>(
+        "[data-scroll-section]",
+      );
 
-      // Get all slide elements
-      const slideElements = slidesContainerRef.current?.children;
-      if (!slideElements) return;
+      if (sectionElements.length === 0) return;
+
+      // Initially hide the slider
+      if (containerRef.current) {
+        gsap.set(containerRef.current, { opacity: 0, pointerEvents: "none" });
+      }
 
       function createIndices() {
         if (sliderIndicesRef.current) {
           (sliderIndicesRef.current as HTMLElement).innerHTML = "";
 
-          Array.from({ length: slideCount }).forEach((_, index) => {
+          Array.from({ length: sectionCount }).forEach((_, index) => {
             const indexNum = (index + 1).toString().padStart(2, "0");
             const indicatorElement = document.createElement("p");
             indicatorElement.dataset.index = index.toString();
             indicatorElement.innerHTML = `<span class="relative w-3 h-px bg-white origin-right will-change-transform scale-x-0"></span><span class="relative w-5 flex justify-end will-change-[opacity]">${indexNum}</span>`;
             indicatorElement.style.cursor = "pointer";
 
-            // Add click event to navigate to specific slide
+            // Add click event to navigate to specific section
             indicatorElement.addEventListener("click", () => {
-              const targetProgress = index / slideCount;
-              const scrollTrigger = ScrollTrigger.getAll().find(
-                (st) => st.trigger === sliderRef.current,
-              );
-
-              if (scrollTrigger) {
-                const targetScroll =
-                  scrollTrigger.start +
-                  targetProgress * (scrollTrigger.end - scrollTrigger.start);
+              const targetElement = sectionElements[index];
+              if (targetElement) {
                 gsap.to(window, {
-                  scrollTo: targetScroll,
+                  scrollTo: { y: targetElement, offsetY: 0 },
                   duration: 1,
                   ease: "power2.inOut",
                 });
@@ -99,59 +86,6 @@ export default function ScrollSlider({ children }: ScrollSliderProps) {
             }
           });
         }
-      }
-
-      function animateNewSlide(index: number) {
-        if (!slideElements) return;
-
-        // Crossfade between slides
-        Array.from(slideElements).forEach((slide, i) => {
-          if (i === index) {
-            // Kill any existing animations on this slide
-            gsap.killTweensOf(slide);
-            // Set new slide on top with higher z-index and animate opacity
-            gsap.set(slide as HTMLElement, {
-              zIndex: 2,
-            });
-            gsap.fromTo(
-              slide as HTMLElement,
-              { opacity: 0 },
-              {
-                opacity: 1,
-                duration: 0.6,
-                ease: "power2.out",
-                overwrite: true,
-                immediateRender: true,
-                onComplete: () => {
-                  // After the new slide has faded in, hide all other slides
-                  Array.from(slideElements).forEach((otherSlide, j) => {
-                    if (j !== index) {
-                      gsap.set(otherSlide as HTMLElement, {
-                        opacity: 0,
-                        zIndex: 0,
-                      });
-                    }
-                  });
-                },
-              },
-            );
-          } else if (i === previousSlide) {
-            // Keep the previous active slide visible during the transition for crossfade
-            // Set it below the new slide
-            gsap.set(slide as HTMLElement, {
-              opacity: 1,
-              zIndex: 1,
-            });
-          } else {
-            // Hide all other slides instantly
-            gsap.set(slide as HTMLElement, {
-              opacity: 0,
-              zIndex: 0,
-            });
-          }
-        });
-
-        animateIndicators(index);
       }
 
       function animateIndicators(index: number) {
@@ -193,74 +127,93 @@ export default function ScrollSlider({ children }: ScrollSliderProps) {
         });
       }
 
-      // Initialize slides - hide all except first
-      Array.from(slideElements).forEach((slide, i) => {
-        gsap.set(slide as HTMLElement, {
-          opacity: i === 0 ? 1 : 0,
-          zIndex: i === 0 ? 1 : 0,
-        });
-      });
-
       createIndices();
 
-      ScrollTrigger.create({
-        trigger: sliderRef.current,
-        start: "top top",
-        end: `+=${pinDistance}px`,
-        scrub: true,
-        pin: true,
-        pinSpacing: true,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          if (progressBarRef.current) {
-            gsap.set(progressBarRef.current, {
-              scaleY: self.progress,
-            });
-          }
+      const ctx = gsap.context(() => {
+        // Each section gets its own independent ScrollTrigger
+        // This section tracking is completely decoupled from the hero
+        sectionElements.forEach((section, index) => {
+          ScrollTrigger.create({
+            trigger: section,
+            start: "top center",
+            end: "bottom center",
+            onEnter: () => {
+              animateIndicators(index);
+            },
+            onEnterBack: () => {
+              animateIndicators(index);
+            },
+            markers: false,
+          });
+        });
 
-          const currentSlide = Math.min(
-            Math.floor(self.progress * slideCount),
-            slideCount - 1,
-          );
+        // Independent progress bar ScrollTrigger
+        // Starts when first section enters viewport (after hero unpins naturally)
+        if (sectionElements.length > 0) {
+          const firstSection = sectionElements[0];
+          const lastSection = sectionElements[sectionElements.length - 1];
 
-          if (activeSlide !== currentSlide) {
-            previousSlide = activeSlide;
-            activeSlide = currentSlide;
-            animateNewSlide(activeSlide);
-          }
-        },
-      });
+          ScrollTrigger.create({
+            trigger: firstSection,
+            start: "top top",
+            endTrigger: lastSection,
+            end: "bottom bottom",
+            scrub: true,
+            markers: false,
+            onUpdate: (self) => {
+              if (progressBarRef.current) {
+                gsap.set(progressBarRef.current, {
+                  scaleY: self.progress,
+                });
+              }
+            },
+          });
+
+          // Independent visibility trigger
+          // Appears when first section is about to enter, hides when scrolling back to hero
+          ScrollTrigger.create({
+            trigger: firstSection,
+            start: "top bottom",
+            markers: false,
+            onEnter: () => {
+              if (containerRef.current) {
+                gsap.to(containerRef.current, {
+                  opacity: 1,
+                  pointerEvents: "auto",
+                  duration: 0.5,
+                  ease: "power2.out",
+                });
+              }
+            },
+            onLeaveBack: () => {
+              if (containerRef.current) {
+                gsap.to(containerRef.current, {
+                  opacity: 0,
+                  pointerEvents: "none",
+                  duration: 0.3,
+                  ease: "power2.in",
+                });
+              }
+            },
+          });
+        }
+      }, scopeRef);
 
       return () => {
-        ScrollTrigger.getAll().forEach((st) => {
-          st.kill();
-        });
+        ctx.revert();
       };
     },
-    { scope: sliderRef, dependencies: [slideCount] },
+    { dependencies: [sectionCount] },
   );
 
   return (
-    <section
-      className="scroll-slider relative w-full h-screen overflow-hidden"
-      ref={sliderRef}
-    >
-      {/* Container for all slides */}
+    <div ref={scopeRef}>
       <div
-        className="slides-container absolute inset-0 w-full h-full"
-        ref={slidesContainerRef}
+        ref={containerRef}
+        className="fixed top-1/2 right-8 -translate-y-1/2 max-h-[80vh] flex flex-col justify-center max-[1000px]:top-auto max-[1000px]:translate-y-0 max-[1000px]:bottom-8 font-geist-mono z-50 pointer-events-none"
       >
-        {slidesWithKeys.map(({ child, key }) => (
-          <div key={key} className="slide absolute inset-0 w-full h-full">
-            {child}
-          </div>
-        ))}
-      </div>
-
-      {/* Indicators and Progress Bar */}
-      <div className="absolute top-1/2 right-8 -translate-y-1/2 max-h-[80vh] flex flex-col justify-center max-[1000px]:top-auto max-[1000px]:translate-y-0 max-[1000px]:bottom-8 font-geist-mono z-10">
         <div
-          className="flex flex-col gap-3 px-5 py-4 [&_p]:flex [&_p]:items-center [&_p]:gap-4 [&_p]:text-white"
+          className="flex flex-col gap-3 px-5 py-4 [&_p]:flex [&_p]:items-center [&_p]:gap-4 [&_p]:text-white pointer-events-auto"
           ref={sliderIndicesRef}
         ></div>
 
@@ -271,6 +224,6 @@ export default function ScrollSlider({ children }: ScrollSliderProps) {
           ></div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -1,8 +1,15 @@
 import Script from "next/script";
 
-export default function SubstackSection() {
+interface SubstackSectionProps {
+  sectionIndex?: number;
+}
+
+export default function SubstackSection({ sectionIndex }: SubstackSectionProps) {
   return (
-    <section className="bg-black py-16">
+    <section
+      data-scroll-section={sectionIndex}
+      className="bg-black h-screen py-16"
+    >
       <div className="container mx-auto px-8 max-w-4xl">
         <h2 className="text-5xl font-semibold text-white mb-12 text-center max-[1000px]:text-3xl tracking-tight">
           Latest from Substack

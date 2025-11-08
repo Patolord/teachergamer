@@ -1,6 +1,13 @@
-export default function ContactSection() {
+interface ContactSectionProps {
+  sectionIndex?: number;
+}
+
+export default function ContactSection({ sectionIndex }: ContactSectionProps) {
   return (
-    <section className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900">
+    <section
+      data-scroll-section={sectionIndex}
+      className="relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900"
+    >
       <div className="container mx-auto px-8 py-16 max-w-4xl">
         <h2 className="text-6xl font-bold text-white mb-8 text-center max-[1000px]:text-4xl">
           Get In Touch

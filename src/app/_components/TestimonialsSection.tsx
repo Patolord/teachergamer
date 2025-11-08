@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import "./Testimonials.css";
@@ -9,7 +11,11 @@ type message = {
   image?: string;
 };
 
-const Testimonials = () => {
+interface TestimonialsProps {
+  sectionIndex?: number;
+}
+
+const Testimonials = ({ sectionIndex }: TestimonialsProps) => {
   const messages = [
     {
       id: 1,
@@ -167,17 +173,20 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section className="w-full py-20 relative overflow-x-hidden">
+    <section
+      data-scroll-section={sectionIndex}
+      className="w-full h-screen py-20 relative overflow-x-hidden bg-black"
+    >
       {/* Imagem de fundo */}
       <div className="absolute inset-0 z-0">
-        <Image
+        {/*  <Image
           src="/img.png"
           alt="Background"
           fill
           className="object-cover"
           quality={90}
           priority
-        />
+        /> */}
       </div>
 
       {/* Conteúdo */}

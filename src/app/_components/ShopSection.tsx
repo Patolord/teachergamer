@@ -1,8 +1,15 @@
 import ShopSectionCard from "./ShopSectionCard";
 
-export default function ShopSection() {
+interface ShopSectionProps {
+  sectionIndex?: number;
+}
+
+export default function ShopSection({ sectionIndex }: ShopSectionProps) {
   return (
-    <section className="relative flex items-center justify-center min-h-screen px-4 bg-gradient-to-b from-whit group-even:from-yello-500 to-yellow-600 overflow-hidden">
+    <section
+      data-scroll-section={sectionIndex}
+      className="relative flex items-center justify-center h-screen px-4 bg-gradient-to-b from-whit group-even:from-yello-500 to-yellow-600 overflow-hidden"
+    >
       <div className="container max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
           <ShopSectionCard width={500} height={700} image="/book-cover.png" />

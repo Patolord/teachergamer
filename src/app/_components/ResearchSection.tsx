@@ -1,6 +1,13 @@
-export default function ResearchSection() {
+interface ResearchSectionProps {
+  sectionIndex?: number;
+}
+
+export default function ResearchSection({ sectionIndex }: ResearchSectionProps) {
   return (
-    <section className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-900 via-gray-900 to-zinc-900">
+    <section
+      data-scroll-section={sectionIndex}
+      className="relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-gray-900 to-zinc-900"
+    >
       <div className="container mx-auto px-8 py-16 max-w-6xl">
         <h2 className="text-6xl font-bold text-white mb-12 text-center max-[1000px]:text-4xl">
           Our Research

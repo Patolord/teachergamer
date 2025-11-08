@@ -7,13 +7,15 @@ import ScrollDownIndicator from "./ScrollDownIndicator";
 import { useHeroScrollAnimation } from "./useHeroScrollAnimation";
 
 export default function HeroSection() {
-  const { canvasRef, navRef, headerRef, heroImgRef } = useHeroScrollAnimation();
+  const { canvasRef, navRef, headerRef, heroImgRef, heroSectionRef } =
+    useHeroScrollAnimation();
 
   return (
     <>
       <Navigation ref={navRef} />
 
       <section
+        ref={heroSectionRef}
         className="hero relative w-full h-screen overflow-hidden"
         style={{
           transformStyle: "preserve-3d",

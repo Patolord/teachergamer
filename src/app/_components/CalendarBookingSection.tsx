@@ -3,7 +3,13 @@
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
 
-export default function CalendarBookingSection() {
+interface CalendarBookingSectionProps {
+  sectionIndex?: number;
+}
+
+export default function CalendarBookingSection({
+  sectionIndex,
+}: CalendarBookingSectionProps) {
   useEffect(() => {
     (async () => {
       const cal = await getCalApi({ namespace: "training-session" });
@@ -16,7 +22,10 @@ export default function CalendarBookingSection() {
   }, []);
 
   return (
-    <section className="relative w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-900 via-yellow-900 to-orange-900">
+    <section
+      data-scroll-section={sectionIndex}
+      className="relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-amber-900 via-yellow-900 to-orange-900"
+    >
       <div className="container mx-auto px-8 py-16 max-w-6xl relative z-0">
         <h2 className="text-6xl font-bold text-white mb-8 text-center max-[1000px]:text-4xl">
           Agende sua Sessão
