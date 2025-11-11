@@ -1,8 +1,15 @@
 import ShopSectionCard from "./ShopSectionCard";
 
-export default function ShopSection() {
+interface ShopSectionProps {
+  sectionIndex?: number;
+}
+
+export default function ShopSection({ sectionIndex }: ShopSectionProps) {
   return (
-    <section className="py-16 flex justify-center items-center bg-gray-700 bg-[url('/section-0-bg.png')] bg-blend-overlay bg-cover bg-center">
+    <section
+      data-scroll-section={sectionIndex}
+      className="py-16 flex justify-center items-center bg-gray-700 bg-[url('/section-0-bg.png')] bg-blend-overlay bg-cover bg-center"
+    >
       <div className="flex flex-col md:flex-row items-center  justify-center max-w-3xl w-full">
         <div className="flex justify-center">
           <ShopSectionCard image="/book-cover.png" />
