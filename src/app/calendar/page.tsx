@@ -6,7 +6,7 @@ export default function Calendar() {
   useEffect(() => {
     (async () => {
       const cal = await getCalApi({ namespace: "training-session" });
-      cal("ui", { hideEventTypeDetails: false, layout: "month_view" });
+      cal("ui", { hideEventTypeDetails: false, layout: "month_view",});
     })();
   }, []);
   return (
