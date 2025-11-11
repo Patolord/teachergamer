@@ -4,7 +4,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -14,215 +13,100 @@ interface ScrollSliderProps {
 }
 
 export default function ScrollSlider({ sectionCount }: ScrollSliderProps) {
-  const sliderIndicesRef = useRef(null);
-  const progressBarRef = useRef(null);
+  const sliderIndicesRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const scopeRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
-      if (sectionCount === 0) return;
+  useGSAP(() => {
+    if (sectionCount === 0) return;
 
-      // Query all section elements from document (not scoped)
-      const sectionElements = gsap.utils.toArray<HTMLElement>(
-        "[data-scroll-section]",
-      );
+    // Query content sections (excludes hero)
+    const sections = gsap.utils.toArray<HTMLElement>("[data-scroll-section]");
+    if (sections.length === 0) return;
 
-      if (sectionElements.length === 0) return;
+    const firstSection = sections[0];
+    const lastSection = sections[sections.length - 1];
 
-      // Initially hide the slider
-      if (containerRef.current) {
-        gsap.set(containerRef.current, { opacity: 0, pointerEvents: "none" });
-      }
+    // Create section indicators
+    if (sliderIndicesRef.current) {
+      sliderIndicesRef.current.innerHTML = "";
 
-      function createIndices() {
-        if (sliderIndicesRef.current) {
-          (sliderIndicesRef.current as HTMLElement).innerHTML = "";
+      for (let i = 0; i < sectionCount; i++) {
+        const indicator = document.createElement("p");
+        indicator.className =
+          "flex items-center gap-4 text-white cursor-pointer";
+        indicator.dataset.index = i.toString();
 
-          Array.from({ length: sectionCount }).forEach((_, index) => {
-            const indexNum = (index + 1).toString().padStart(2, "0");
-            const indicatorElement = document.createElement("p");
-            indicatorElement.dataset.index = index.toString();
-            indicatorElement.innerHTML = `<span class="relative w-3 h-px bg-white origin-right will-change-transform scale-x-0"></span><span class="relative w-5 flex justify-end will-change-[opacity]">${indexNum}</span>`;
-            indicatorElement.style.cursor = "pointer";
+        const indexNum = (i + 1).toString().padStart(2, "0");
+        indicator.innerHTML = `
+          <span class="index-marker w-3 h-px bg-white origin-right scale-x-0"></span>
+          <span class="index-number w-5 flex justify-end opacity-50">${indexNum}</span>
+        `;
 
-            // Add click event to navigate to specific section
-            indicatorElement.addEventListener("click", () => {
-              const targetElement = sectionElements[index];
-              if (targetElement) {
-                gsap.to(window, {
-                  scrollTo: { y: targetElement, offsetY: 0 },
-                  duration: 1,
-                  ease: "power2.inOut",
-                });
-              }
-            });
-
-            (sliderIndicesRef.current as unknown as HTMLElement).appendChild(
-              indicatorElement,
-            );
-
-            const markerElement = indicatorElement.querySelector(
-              "span:first-child",
-            ) as HTMLElement;
-            const indexElement = indicatorElement.querySelector(
-              "span:last-child",
-            ) as HTMLElement;
-
-            if (index === 0) {
-              gsap.set(indexElement, {
-                opacity: 1,
-              });
-              gsap.set(markerElement, {
-                scaleX: 1,
-              });
-            } else {
-              gsap.set(indexElement, {
-                opacity: 0.35,
-              });
-              gsap.set(markerElement, {
-                scaleX: 0,
-              });
-            }
-          });
-        }
-      }
-
-      function animateIndicators(index: number) {
-        if (!sliderIndicesRef.current) return;
-
-        const indicators = (
-          sliderIndicesRef.current as HTMLElement
-        ).querySelectorAll("p");
-
-        indicators.forEach((indicator, i) => {
-          const markerElement = indicator.querySelector("span:first-child");
-          const indexElement = indicator.querySelector("span:last-child");
-
-          if (i === index) {
-            gsap.to(indexElement, {
-              opacity: 1,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-
-            gsap.to(markerElement, {
-              scaleX: 1,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-          } else {
-            gsap.to(indexElement, {
-              opacity: 0.5,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-
-            gsap.to(markerElement, {
-              scaleX: 0,
-              duration: 0.3,
-              ease: "power2.out",
+        // Click to scroll to section
+        indicator.addEventListener("click", () => {
+          const targetSection = sections[i];
+          if (targetSection) {
+            gsap.to(window, {
+              scrollTo: { y: targetSection, offsetY: 0 },
+              duration: 1,
+              ease: "power2.inOut",
             });
           }
         });
+
+        sliderIndicesRef.current.appendChild(indicator);
       }
 
-      createIndices();
+      // Set first indicator as active initially
+      const firstMarker =
+        sliderIndicesRef.current.querySelector(".index-marker");
+      const firstNumber =
+        sliderIndicesRef.current.querySelector(".index-number");
+      if (firstMarker && firstNumber) {
+        gsap.set(firstMarker, { scaleX: 1 });
+        gsap.set(firstNumber, { opacity: 1 });
+      }
+    }
 
-      const ctx = gsap.context(() => {
-        // Each section gets its own independent ScrollTrigger
-        // This section tracking is completely decoupled from the hero
-        sectionElements.forEach((section, index) => {
-          ScrollTrigger.create({
-            trigger: section,
-            start: "top center",
-            end: "bottom center",
-            onEnter: () => {
-              animateIndicators(index);
-            },
-            onEnterBack: () => {
-              animateIndicators(index);
-            },
-            markers: false,
-          });
-        });
-
-        // Independent progress bar ScrollTrigger
-        // Starts when first section enters viewport (after hero unpins naturally)
-        if (sectionElements.length > 0) {
-          const firstSection = sectionElements[0];
-          const lastSection = sectionElements[sectionElements.length - 1];
-
-          ScrollTrigger.create({
-            trigger: firstSection,
-            start: "top top",
-            endTrigger: lastSection,
-            end: "bottom bottom",
-            scrub: true,
-            markers: false,
-            onUpdate: (self) => {
-              if (progressBarRef.current) {
-                gsap.set(progressBarRef.current, {
-                  scaleY: self.progress,
-                });
-              }
-            },
-          });
-
-          // Independent visibility trigger
-          // Appears when first section is about to enter, hides when scrolling back to hero
-          ScrollTrigger.create({
-            trigger: firstSection,
-            start: "top bottom",
-            markers: false,
-            onEnter: () => {
-              if (containerRef.current) {
-                gsap.to(containerRef.current, {
-                  opacity: 1,
-                  pointerEvents: "auto",
-                  duration: 0.5,
-                  ease: "power2.out",
-                });
-              }
-            },
-            onLeaveBack: () => {
-              if (containerRef.current) {
-                gsap.to(containerRef.current, {
-                  opacity: 0,
-                  pointerEvents: "none",
-                  duration: 0.3,
-                  ease: "power2.in",
-                });
-              }
-            },
-          });
+    // Progress bar ScrollTrigger
+    ScrollTrigger.create({
+      trigger: firstSection,
+      start: "top top", // When Section 0 top reaches viewport top
+      endTrigger: lastSection,
+      end: "bottom bottom", // When last section bottom reaches viewport bottom
+      markers: true,
+      scrub: true,
+      onUpdate: (self) => {
+        if (progressBarRef.current) {
+          gsap.set(progressBarRef.current, { scaleY: self.progress });
         }
-      }, scopeRef);
+      },
+    });
 
-      return () => {
-        ctx.revert();
-      };
-    },
-    { dependencies: [sectionCount] },
-  );
+    return () => {
+      // Cleanup
+    };
+  }, [sectionCount]);
 
   return (
-    <div ref={scopeRef}>
+    <div
+      ref={containerRef}
+      className="fixed top-1/2 right-8 -translate-y-1/2 max-h-[80vh] flex flex-col justify-center font-geist-mono z-50"
+    >
+      {/* Section indicators go here */}
       <div
-        ref={containerRef}
-        className="fixed top-1/2 right-8 -translate-y-1/2 max-h-[80vh] flex flex-col justify-center max-[1000px]:top-auto max-[1000px]:translate-y-0 max-[1000px]:bottom-8 font-geist-mono z-50 pointer-events-none"
-      >
-        <div
-          className="flex flex-col gap-3 px-5 py-4 [&_p]:flex [&_p]:items-center [&_p]:gap-4 [&_p]:text-white pointer-events-auto"
-          ref={sliderIndicesRef}
-        ></div>
+        ref={sliderIndicesRef}
+        className="flex flex-col gap-3 px-5 py-4"
+      ></div>
 
-        <div className="absolute top-0 right-0 w-px h-full bg-white/35">
-          <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[3px] h-full bg-white origin-top will-change-transform"
-            ref={progressBarRef}
-          ></div>
-        </div>
+      {/* Progress bar container */}
+      <div className="absolute top-0 right-0 w-px h-full bg-white/35">
+        {/* Progress bar fill */}
+        <div
+          ref={progressBarRef}
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[3px] h-full bg-white origin-top scale-y-0"
+        ></div>
       </div>
     </div>
   );

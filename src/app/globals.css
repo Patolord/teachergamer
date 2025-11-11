@@ -140,7 +140,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 m-0 p-0 box-border cursor-none;
+    @apply border-border outline-ring/50 m-0 p-0 box-border;
   }
   body {
     @apply bg-background text-foreground;
