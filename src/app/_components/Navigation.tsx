@@ -32,7 +32,7 @@ const Navigation = forwardRef<HTMLElement>((props, ref) => {
 
       <div className="flex-1 flex justify-center items-center">
         <a href="/" className="text-2xl text-white font-normal">
-          Teacher Gamer
+          Nav bar
         </a>
       </div>
 

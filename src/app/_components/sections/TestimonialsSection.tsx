@@ -1,29 +1,22 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef } from "react";
-import "./Testimonials.css";
-
-type message = {
-  id: number;
-  text?: string;
-  handle?: string;
-  image?: string;
-};
-
 interface TestimonialsProps {
   sectionIndex?: number;
 }
 
-const Testimonials = ({ sectionIndex }: TestimonialsProps) => {
-
-  
-    return (
-      <div>     
-    Testimonials
+export default function TestimonialsSection({
+  sectionIndex,
+}: TestimonialsProps) {
+  return (
+    <section
+      data-scroll-section={sectionIndex}
+      className="relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900"
+    >
+      <div className="container mx-auto px-8 py-16 max-w-7xl">
+        <h2 className="text-6xl font-bold text-white mb-12 text-center max-[1000px]:text-4xl">
+          Section {sectionIndex}
+        </h2>
       </div>
-    );
-  };
-
-
-export default Testimonials;
+    </section>
+  );
+}
