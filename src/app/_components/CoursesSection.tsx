@@ -44,7 +44,7 @@ export default function CoursesSection({ sectionIndex }: CoursesSectionProps) {
         <h2 className="text-6xl font-bold text-white mb-12 text-center max-[1000px]:text-4xl">
           Choose your next Adventure!
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-5 gap-8">
           {courses.map((course) => (
             <EletricCard
               key={course.title}
