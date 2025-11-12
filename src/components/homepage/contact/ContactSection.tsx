@@ -6,9 +6,13 @@ export default function ContactSection({ sectionIndex }: ContactSectionProps) {
   return (
     <section
       data-scroll-section={sectionIndex}
-      className="relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900"
+      className="relative w-full min-h-screen flex items-center justify-center bg-black py-40"
     >
-      <div className="container mx-auto px-8 py-16 max-w-4xl">
+      {/* Top horizontal transition element */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50" />
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-yellow-500/10 to-transparent pointer-events-none" />
+
+      <div className="container mx-auto px-8 py-16 max-w-4xl relative z-10">
         <h2 className="text-6xl font-bold text-white mb-8 text-center max-[1000px]:text-4xl">
           Get In Touch
         </h2>
@@ -48,6 +52,10 @@ export default function ContactSection({ sectionIndex }: ContactSectionProps) {
           </form>
         </div>
       </div>
+
+      {/* Bottom horizontal transition element */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-yellow-500/10 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50" />
     </section>
   );
 }

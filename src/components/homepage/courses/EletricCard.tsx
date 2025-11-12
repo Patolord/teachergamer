@@ -14,12 +14,14 @@ type EletricCardProps = {
   title: string;
   description: string;
   color: string;
+  badge?: string;
 };
 
 export default function EletricCard({
   title,
   description,
   color,
+  badge,
 }: EletricCardProps) {
   return (
     <ElectricBorder
@@ -31,20 +33,22 @@ export default function EletricCard({
     >
       <Card className="border-0 h-full min-h-[400px] bg-black/50 backdrop-blur-sm text-white flex flex-col">
         <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          <CardDescription className="text-grey">{description}</CardDescription>
+          <CardTitle className="text-3xl mb-4 font-serif">{title}</CardTitle>
+          <CardDescription className="text-gray-400 font-light text-base">
+            {description}
+          </CardDescription>
         </CardHeader>
-        <CardContent className="flex-grow">
+        <CardContent className="text-gray-400 font-light text-base">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam ea
           aliquam delectus? Alias dicta omnis ab repellendus quae magnam cum?
         </CardContent>
-        <CardFooter className="mt-auto">
+        <CardFooter className="mt-auto px-6">
           <Button
             variant="outline"
-            className="text-black border rounded-xl px-10"
+            className="w-full text-black border rounded-xl py-6 flex items-center justify-center gap-2"
           >
-            <ArrowRightIcon className="w-4 h-4" />
             Learn More
+            <ArrowRightIcon className="w-4 h-4" />
           </Button>
         </CardFooter>
       </Card>

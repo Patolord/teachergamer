@@ -6,9 +6,13 @@ export default function SubstackSection({ sectionIndex }: Props) {
   return (
     <section
       data-scroll-section={sectionIndex}
-      className="flex items-center justify-center h-screen bg-black"
+      className="flex items-center justify-center min-h-screen py-40 bg-black relative"
     >
-      <div className="w-full max-w-2xl p-4 text-white">
+      {/* Top horizontal transition element */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50" />
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-yellow-500/10 to-transparent pointer-events-none" />
+
+      <div className="w-full max-w-2xl p-4 text-white relative z-10">
         <h2 className="text-xl mb-4">Latest from Substack</h2>
 
         <div className="substack-post-embed">
@@ -28,6 +32,10 @@ export default function SubstackSection({ sectionIndex }: Props) {
 
         
       </div>
+
+      {/* Bottom horizontal transition element */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-yellow-500/10 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50" />
 
       <Script src="https://substack.com/embedjs/embed.js" />
     </section>

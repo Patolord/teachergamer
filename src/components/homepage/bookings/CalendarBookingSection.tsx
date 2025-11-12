@@ -17,7 +17,6 @@ export default function CalendarBookingSection({
         hideEventTypeDetails: false,
         layout: "month_view",
         theme: "light",
-        
       });
     })();
   }, []);
@@ -25,13 +24,17 @@ export default function CalendarBookingSection({
   return (
     <section
       data-scroll-section={sectionIndex}
-      className="w-screen  bg-[url(/section-4-bg.png)]"
+      className="bg-[url(/section-4-bg.png)] relative"
     >
-      <div className="py-16 px-16 bg-black/60 bg-no-repeat bg-backdrop-none space-y-4">
-        <h2 className="text-white text-3xl  text-center font-serif">
+      {/* Top horizontal transition element */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50 z-20" />
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-yellow-500/10 to-transparent pointer-events-none z-20" />
+
+      <div className="py-40 px-16 bg-black/60 bg-no-repeat bg-backdrop-none space-y-4 relative">
+        <h2 className="text-white text-3xl text-center font-serif">
           Agende sua Sessão
         </h2>
-        <p className=" text-white text-xl  text-center font-serif">
+        <p className="text-white text-xl text-center font-serif">
           Escolha a melhor data e horário para sua aventura
         </p>
 
@@ -42,12 +45,15 @@ export default function CalendarBookingSection({
             style={{
               width: "100%",
               height: "100%",
-              
             }}
             config={{ layout: "month_view" }}
           />
         </div>
       </div>
+
+      {/* Bottom horizontal transition element */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-yellow-500/10 to-transparent pointer-events-none z-20" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50 z-20" />
     </section>
   );
 }

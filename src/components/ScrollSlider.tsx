@@ -170,10 +170,11 @@ export default function ScrollSlider({ sectionCount }: ScrollSliderProps) {
           });
 
           // Independent visibility trigger
-          // Appears when first section is about to enter, hides when scrolling back to hero
+          // Appears when testimonials section (first section) comes into view
           ScrollTrigger.create({
             trigger: firstSection,
-            start: "top bottom",
+            start: "top 80%",
+            end: "max",
             markers: false,
             onEnter: () => {
               if (containerRef.current) {
@@ -210,7 +211,7 @@ export default function ScrollSlider({ sectionCount }: ScrollSliderProps) {
     <div ref={scopeRef}>
       <div
         ref={containerRef}
-        className="fixed top-1/2 right-8 -translate-y-1/2 max-h-[80vh] flex flex-col justify-center max-[1000px]:top-auto max-[1000px]:translate-y-0 max-[1000px]:bottom-8 font-geist-mono z-50 pointer-events-none"
+        className="hidden md:flex fixed top-1/2 right-8 -translate-y-1/2 max-h-[80vh] flex-col justify-center font-geist-mono z-50 pointer-events-none"
       >
         <div
           className="flex flex-col gap-3 px-5 py-4 [&_p]:flex [&_p]:items-center [&_p]:gap-4 [&_p]:text-white pointer-events-auto"

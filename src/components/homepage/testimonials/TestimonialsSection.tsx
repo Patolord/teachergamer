@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Testimonials.css";
 
 type message = {
@@ -16,6 +16,22 @@ interface TestimonialsProps {
 }
 
 const Testimonials = ({ sectionIndex }: TestimonialsProps) => {
+  const [expandedMessages, setExpandedMessages] = useState<Set<number>>(
+    new Set(),
+  );
+
+  const toggleExpanded = (id: number) => {
+    setExpandedMessages((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
   const messages = [
     {
       id: 1,
@@ -78,19 +94,46 @@ const Testimonials = ({ sectionIndex }: TestimonialsProps) => {
           transition-transform duration-200 ease-in-out
           hover:border-yellow-500
           hover:-translate-y-1
-          hover:shadow-[0_6px_18px_rgba(234,179,8,0.4)]"
+          hover:shadow-[0_6px_18px_rgba(234,179,8,0.4)]
+          relative"
         >
-          <img
+          <Image
             src={message.image}
             alt="Testimonial"
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
         </div>
       );
     }
 
+    const MAX_LENGTH = 200;
+    const isExpanded = expandedMessages.has(message.id);
+    const needsTruncation = message.text && message.text.length > MAX_LENGTH;
+    const displayText =
+      needsTruncation && !isExpanded
+        ? message.text?.substring(0, MAX_LENGTH) + "..."
+        : message.text;
+
+    const handleClick = () => {
+      if (needsTruncation) {
+        toggleExpanded(message.id);
+      }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (needsTruncation && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        toggleExpanded(message.id);
+      }
+    };
+
     return (
-      <div
+      <button
+        type="button"
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        disabled={!needsTruncation}
         className="flex-shrink-0
         w-[380px] min-h-[120px]
         md:w-[320px] md:min-h-[110px] md:p-5
@@ -100,11 +143,17 @@ const Testimonials = ({ sectionIndex }: TestimonialsProps) => {
         transition-transform duration-200 ease-in-out
         hover:bg-yellow-500 hover:border-yellow-500
         hover:-translate-y-1
-        hover:shadow-[0_6px_18px_yellow-500]"
+        hover:shadow-[0_6px_18px_yellow-500]
+        disabled:cursor-default text-left"
       >
         <div className="flex flex-col gap-4 h-full">
           <p className="text-black text-[0.95rem] leading-[1.6] m-0 flex-grow whitespace-normal">
-            {message.text}
+            {displayText}
+            {needsTruncation && (
+              <span className="ml-2 text-yellow-600 hover:text-yellow-700 font-semibold">
+                {isExpanded ? "Show less" : "Read more"}
+              </span>
+            )}
           </p>
           <div className="flex items-center gap-3">
             <span className="text-black text-sm font-medium">
@@ -112,7 +161,7 @@ const Testimonials = ({ sectionIndex }: TestimonialsProps) => {
             </span>
           </div>
         </div>
-      </div>
+      </button>
     );
   };
 
@@ -175,33 +224,29 @@ const Testimonials = ({ sectionIndex }: TestimonialsProps) => {
   return (
     <section
       data-scroll-section={sectionIndex}
-      className="w-full h-screen py-20 relative overflow-x-hidden bg-black"
+      className="w-full py-40 relative overflow-x-hidden bg-black"
     >
-      {/* Imagem de fundo */}
-      <div className="absolute inset-0 z-0">
-        {/*  <Image
-          src="/img.png"
-          alt="Background"
-          fill
-          className="object-cover"
-          quality={90}
-          priority
-        /> */}
-      </div>
+      {/* Top horizontal transition element */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50" />
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-yellow-500/10 to-transparent pointer-events-none" />
 
-      {/* Conteúdo */}
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="text-center mb-12">
+      {/* Content */}
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-16">
           <h3 className="text-4xl font-semibold tracking-tight mb-4 bg-[linear-gradient(135deg,#fff_0%,#c47020_20%,#d09a11_40%,#fff_100%)] bg-[length:200%_200%] bg-clip-text text-transparent text-center inline-block whitespace-nowrap animate-gradientShift">
             Testimonials
           </h3>
         </div>
 
-        <div className="relative w-full max-w-[1500px] mx-auto overflow-hidden before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-[200px] before:z-10 before:pointer-events-none before:bg-gradient-to-r before:from-[#fff] before:to-transparent after:content-[''] after:absolute after:inset-y-0 after:right-0 after:w-[200px] after:z-10 after:pointer-events-none after:bg-gradient-to-l after:from-[#fff] after:to-transparent">
+        <div className="relative w-full max-w-[1500px] mx-auto overflow-hidden before:content-[''] before:absolute before:inset-y-0 before:left-0 before:w-[200px] before:z-10 before:pointer-events-none before:bg-gradient-to-r before:from-black before:to-transparent after:content-[''] after:absolute after:inset-y-0 after:right-0 after:w-[200px] after:z-10 after:pointer-events-none after:bg-gradient-to-l after:from-black after:to-transparent">
           <MarqueeRow messages={row1Messages} direction="left" speed={40} />
           <MarqueeRow messages={row2Messages} direction="right" speed={35} />
         </div>
       </div>
+
+      {/* Bottom horizontal transition element */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-yellow-500/10 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50" />
     </section>
   );
 };

@@ -1,13 +1,14 @@
+import ScrollSlider from "@/components/ScrollSlider";
 import SplashCursor from "@/components/SplashCursor";
-import CalendarBookingSection from "./_components/CalendarBookingSection";
-import ContactSection from "./_components/ContactSection";
-import CoursesSection from "./_components/CoursesSection";
-import HeroSection from "./_components/HeroSection";
-import ResearchSection from "./_components/ResearchSection";
-import ScrollSlider from "./_components/ScrollSlider";
-import ShopSection from "./_components/ShopSection";
-import SubstackSection from "./_components/SubstackSection";
-import TestimonialsSection from "./_components/TestimonialsSection";
+import CalendarBookingSection from "../components/homepage/bookings/CalendarBookingSection";
+import ContactSection from "../components/homepage/contact/ContactSection";
+import CoursesSection from "../components/homepage/courses/CoursesSection";
+import HeroSection from "../components/homepage/hero-section/HeroSection";
+import ResearchSection from "../components/homepage/research/ResearchSection";
+import StaircaseHUD from "../components/homepage/StaircaseHUD";
+import ShopSection from "../components/homepage/shop/ShopSection";
+import SubstackSection from "../components/homepage/substack/SubstackSection";
+import TestimonialsSection from "../components/homepage/testimonials/TestimonialsSection";
 
 export default function Home() {
   return (
@@ -15,12 +16,15 @@ export default function Home() {
       <HeroSection />
       <TestimonialsSection sectionIndex={0} />
       <ShopSection sectionIndex={1} />
-      <CalendarBookingSection sectionIndex={2} />
-      <SubstackSection sectionIndex={3} />
-      <ResearchSection sectionIndex={4} />
-      <CoursesSection sectionIndex={5} />
+
+      <SubstackSection sectionIndex={2} />
+      <CalendarBookingSection sectionIndex={3} />
+
+      <CoursesSection sectionIndex={4} />
+      <ResearchSection sectionIndex={5} />
       <ContactSection sectionIndex={6} />
 
+      <StaircaseHUD />
       <ScrollSlider sectionCount={7} />
       <SplashCursor />
     </>

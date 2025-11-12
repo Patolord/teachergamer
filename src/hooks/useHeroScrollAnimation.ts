@@ -11,8 +11,8 @@ export function useHeroScrollAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const heroImgRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
+  const scrollDownIndicatorRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -32,6 +32,9 @@ export function useHeroScrollAnimation() {
           canvas.style.width = window.innerWidth + "px";
           canvas.style.height = window.innerHeight + "px";
           context.scale(pixelRatio, pixelRatio);
+          // Enable high-quality image smoothing
+          context.imageSmoothingEnabled = true;
+          context.imageSmoothingQuality = "high";
         };
         setCanvasSize();
 
@@ -75,12 +78,35 @@ export function useHeroScrollAnimation() {
           }
         };
 
+        // Fade in content after delay
+        const fadeInContent = () => {
+          if (navRef.current) {
+            gsap.to(navRef.current, {
+              opacity: 1,
+              duration: 7,
+              ease: "power2.inOut",
+            });
+          }
+          if (headerRef.current) {
+            gsap.to(headerRef.current, {
+              opacity: 1,
+              duration: 3.5,
+              ease: "power2.inOut",
+            });
+          }
+          if (scrollDownIndicatorRef.current) {
+            gsap.to(scrollDownIndicatorRef.current, {
+              opacity: 1,
+              duration: 7,
+              delay: 0.5,
+              ease: "power2.inOut",
+            });
+          }
+        };
+
         const setupScrollTrigger = () => {
           const scrollHeight = window.innerHeight * 10;
 
-          // Independent hero ScrollTrigger
-          // Pins the hero section and drives frame animation via scroll
-          // pinSpacing: true ensures natural layout flow to next sections after unpin
           ScrollTrigger.create({
             trigger: heroSectionRef.current,
             start: "top top",
@@ -104,10 +130,21 @@ export function useHeroScrollAnimation() {
               if (navRef.current) {
                 if (progress <= 0.1) {
                   const navProgress = progress / 0.1;
-                  const opacity = 1 - navProgress;
-                  gsap.set(navRef.current, { opacity });
+                  gsap.set(navRef.current, { opacity: 1 - navProgress });
                 } else {
                   gsap.set(navRef.current, { opacity: 0 });
+                }
+              }
+
+              // Scroll Down Indicator fade out (0-10%)
+              if (scrollDownIndicatorRef.current) {
+                if (progress <= 0.1) {
+                  const indicatorProgress = progress / 0.1;
+                  gsap.set(scrollDownIndicatorRef.current, {
+                    opacity: 1 - indicatorProgress,
+                  });
+                } else {
+                  gsap.set(scrollDownIndicatorRef.current, { opacity: 0 });
                 }
               }
 
@@ -134,51 +171,33 @@ export function useHeroScrollAnimation() {
                   gsap.set(headerRef.current, { opacity: 0 });
                 }
               }
-
-              // Hero image reveal (60-90%)
-              if (heroImgRef.current) {
-                if (progress < 0.6) {
-                  gsap.set(heroImgRef.current, {
-                    transform: "translateZ(1000px)",
-                    opacity: 0,
-                  });
-                } else if (progress >= 0.6 && progress <= 0.9) {
-                  const imgProgress = (progress - 0.6) / (0.9 - 0.6);
-                  const translateZ = 1000 - imgProgress * 1000;
-
-                  let opacity = 0;
-                  if (progress <= 0.8) {
-                    const opacityProgress = (progress - 0.6) / (0.8 - 0.6);
-                    opacity = opacityProgress;
-                  } else {
-                    opacity = 1;
-                  }
-
-                  gsap.set(heroImgRef.current, {
-                    transform: `translateZ(${translateZ}px)`,
-                    opacity,
-                  });
-                } else {
-                  gsap.set(heroImgRef.current, {
-                    transform: "translateZ(0px)",
-                    opacity: 1,
-                  });
-                }
-              }
             },
           });
         };
+
+        // Disable scrolling initially
+        document.body.style.overflow = "hidden";
+
+        // Load first frame and show it immediately
+        const firstImage = new Image();
+        firstImage.onload = () => {
+          images[0] = firstImage;
+          render();
+          fadeInContent();
+        };
+        firstImage.src = currentFrame(0);
 
         const onLoad = () => {
           imagesToLoad--;
 
           if (imagesToLoad === 0) {
-            render();
+            // All frames loaded - enable scroll and setup ScrollTrigger
+            document.body.style.overflow = "";
             setupScrollTrigger();
           }
         };
 
-        // Load all frame images
+        // Load remaining frames in background
         for (let i = 0; i < frameCount; i++) {
           const img = new Image();
           img.onload = onLoad;
@@ -186,7 +205,7 @@ export function useHeroScrollAnimation() {
             onLoad.call(this);
           };
           img.src = currentFrame(i);
-          images.push(img);
+          images[i] = img;
         }
 
         // Handle window resize
@@ -200,6 +219,7 @@ export function useHeroScrollAnimation() {
         // Cleanup
         return () => {
           window.removeEventListener("resize", handleResize);
+          document.body.style.overflow = "";
         };
       }, heroSectionRef);
 
@@ -210,5 +230,11 @@ export function useHeroScrollAnimation() {
     { dependencies: [] },
   );
 
-  return { canvasRef, navRef, headerRef, heroImgRef, heroSectionRef };
+  return {
+    canvasRef,
+    navRef,
+    headerRef,
+    heroSectionRef,
+    scrollDownIndicatorRef,
+  };
 }

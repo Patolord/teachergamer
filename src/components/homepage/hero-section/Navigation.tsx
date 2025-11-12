@@ -1,13 +1,17 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, CSSProperties } from "react";
 
-const Navigation = forwardRef<HTMLElement>((props, ref) => {
+interface NavigationProps {
+  style?: CSSProperties;
+}
+
+const Navigation = forwardRef<HTMLElement, NavigationProps>(({ style }, ref) => {
   return (
     <nav
       ref={ref}
       className="fixed w-screen px-8 py-6 flex items-center gap-8 z-[2]"
-      style={{ willChange: "opacity" }}
+      style={{ willChange: "opacity", ...style }}
     >
       <div className="flex-1 flex gap-12">
         <a
