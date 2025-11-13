@@ -16,7 +16,7 @@ export default function CalendarBookingSection({
       cal("ui", {
         hideEventTypeDetails: false,
         layout: "month_view",
-        theme: "light",
+        theme: "dark",
       });
     })();
   }, []);
