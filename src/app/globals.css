@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -70,6 +71,8 @@
 }
 
 :root {
+  --fg: #241910;
+  --bg: #fefbf4;
   --radius: 0.375rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.2612 0.0154 264.2613);
@@ -144,7 +147,14 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "DM Mono", monospace;
     letter-spacing: var(--tracking-normal);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   h1 {
@@ -168,4 +178,17 @@
 }
 
 @layer components {
+  .hero-section {
+    position: relative;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    opacity: 0;
+  }
+
+  .progress-bar-inner {
+    height: 0;
+  }
 }

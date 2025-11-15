@@ -1,33 +1,51 @@
 "use client";
 
-import { useHeroScrollAnimation } from "../../../hooks/useHeroScrollAnimation";
+import type { RefObject } from "react";
 import HeroContent from "./HeroContent";
 import Navigation from "./Navigation";
 import ScrollDownIndicator from "./ScrollDownIndicator";
 
-export default function HeroSection() {
-  const {
-    canvasRef,
-    navRef,
-    headerRef,
-    heroSectionRef,
-    scrollDownIndicatorRef,
-  } = useHeroScrollAnimation();
+interface HeroSectionProps {
+  navRef: RefObject<HTMLElement | null>;
+  headerRef: RefObject<HTMLDivElement | null>;
+  heroImgRef?: RefObject<HTMLDivElement | null>;
+  videoRef: RefObject<HTMLVideoElement | null>;
+  heroSectionRef: RefObject<HTMLElement | null>;
+}
 
+export default function HeroSection({
+  navRef,
+  headerRef,
+  videoRef,
+  heroSectionRef,
+}: HeroSectionProps) {
   return (
     <>
       <Navigation ref={navRef} style={{ opacity: 0 }} />
 
       <section
         ref={heroSectionRef}
-        className="hero relative w-full h-screen overflow-hidden bg-black"
+        className="hero-section hero relative w-full overflow-hidden bg-black"
         style={{
           transformStyle: "preserve-3d",
           perspective: "1000px",
         }}
       >
-        {/* Canvas for frame animation */}
-        <canvas ref={canvasRef} className="w-full h-full object-cover" />
+        {/* Video for frame animation */}
+        <video
+          ref={videoRef}
+          muted
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+          className="w-full h-full object-cover"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            backgroundColor: "var(--bg)",
+          }}
+        />
 
         {/* Hero Content with 3D transform */}
         <div
@@ -48,10 +66,7 @@ export default function HeroSection() {
         </div>
 
         {/* Scroll Down Indicator */}
-        <ScrollDownIndicator
-          ref={scrollDownIndicatorRef}
-          style={{ opacity: 0 }}
-        />
+        <ScrollDownIndicator style={{ opacity: 0 }} />
       </section>
     </>
   );
