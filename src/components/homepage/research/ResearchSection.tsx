@@ -73,89 +73,112 @@ export default function ResearchSection({
   return (
     <section
       data-scroll-section={sectionIndex}
-      className="relative w-full flex items-center justify-center bg-black py-30"
+      className="relative w-full flex items-center justify-center bg-black py-24"
     >
-      {/* Background Image */}
+      {/* Background geral */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-center opacity-40"
         style={{ backgroundImage: "url('/0_0.jpeg')" }}
       />
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/70" />
-
-      {/* Top horizontal transition element */}
+      {/* Transições top/bottom */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50 z-10" />
       <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-yellow-500/10 to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-yellow-500/10 to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50 z-10" />
 
-      <div className="container mx-auto px-8 max-w-6xl relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-semibold tracking-tight mb-4 bg-[linear-gradient(135deg,#fff_0%,#c47020_20%,#d09a11_40%,#fff_100%)] bg-[length:200%_200%] bg-clip-text text-transparent text-center inline-block whitespace-nowrap animate-gradientShift">
+      <div className="container mx-auto px-6 md:px-8 max-w-6xl relative z-10">
+        {/* Header */}
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4 bg-[linear-gradient(135deg,#fff_0%,#c47020_20%,#d09a11_40%,#fff_100%)] bg-[length:200%_200%] bg-clip-text text-transparent inline-block whitespace-nowrap animate-gradientShift">
             Research & Publications
           </h2>
-          <p className="text-white/80 text-lg mt-4 max-w-3xl mx-auto">
+          <p className="text-white/80 text-base md:text-lg mt-4 max-w-3xl mx-auto">
             Evidence-based research supporting the Teacher-Gamer methodology
           </p>
         </div>
 
-        <div className="space-y-8">
-          {articles.map((article) => (
-            <article
-              key={article.title}
-              className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 hover:border-yellow-500/50 transition-all duration-300 hover:bg-white/15"
-            >
-              <h3 className="text-2xl font-bold text-white mb-3 leading-tight">
-                {article.title}
-              </h3>
+        {/* Grid de cartas */}
+        <div className="grid gap-8 md:gap-10 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
+          {articles.map((article, index) => {
+            const backgroundImage =
+              index % 2 === 0 ? "/magic1.png" : "/magic2.png";
 
-              <div className="flex flex-wrap items-center gap-2 mb-4 text-sm">
-                <span className="text-yellow-400 font-medium">
-                  {article.authors}
-                </span>
-                <span className="text-white/40">•</span>
-                <span className="text-white/70 italic">{article.journal}</span>
-                <span className="text-white/40">•</span>
-                <span className="text-white/70">{article.year}</span>
-                <span className="text-white/40">•</span>
-                <span className="text-white/60">{article.views}</span>
-              </div>
+            return (
+              <article
+                key={article.title}
+                className="relative mx-auto w-full max-w-xs aspect-[2/3] group"
+              >
+                {/* Card frame */}
+                <div
+                  className="absolute inset-0 bg-center bg-contain bg-no-repeat drop-shadow-[0_25px_40px_rgba(0,0,0,0.7)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-[1.02]"
+                  style={{ backgroundImage: `url('${backgroundImage}')` }}
+                />
 
-              <p className="text-white/90 leading-relaxed mb-4 font-light">
-                {article.abstract}
-              </p>
+                {/* Conteúdo em cima da moldura */}
+                <div className="relative h-full flex flex-col px-6 pt-8 pb-7">
+                  {/* Título */}
+                  <div className="mt-3">
+                    <h3 className="text-sm font-bold leading-snug text-amber-100 drop-shadow-md line-clamp-3 text-center">
+                      {article.title}
+                    </h3>
+                  </div>
 
-              <div className="flex flex-wrap items-center gap-4">
-                <a
-                  href={article.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-yellow-400 hover:text-yellow-300 font-medium text-sm transition-colors"
-                >
-                  <span>Read on Academia.edu</span>
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <title>Read on Academia.edu</title>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </article>
-          ))}
+                  {/* Texto (como “caixa de texto” da carta) */}
+                  <div className="mt-4 flex-1">
+                    <div className="bg-[#f7ebcf]/95 border border-amber-900/40 rounded-md px-3 py-2 text-[10px] leading-snug text-gray-900 shadow-inner max-h-40 overflow-hidden">
+                      <p className="line-clamp-7">{article.abstract}</p>
+                    </div>
+                  </div>
+
+                  {/* Barra “tipo” / autores / ano */}
+                  <div className="mt-3 bg-black/70 border border-amber-500/40 rounded px-2 py-1 flex flex-col gap-1 text-[9px] text-amber-100">
+                    <div className="flex justify-between gap-2">
+                      <span className="font-semibold truncate">
+                        {article.authors}
+                      </span>
+                      <span className="italic text-amber-200/80 truncate">
+                        {article.journal}
+                      </span>
+                    </div>
+                    <div className="flex justify-between gap-2 text-[8px] text-amber-200/80">
+                      <span>{article.year}</span>
+                      <span className="truncate">{article.views}</span>
+                    </div>
+                  </div>
+
+                  {/* Link (como “texto de regra flavor” / botão sutil) */}
+                  <div className="mt-2 flex justify-center">
+                    <a
+                      href={article.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-wide text-amber-200 hover:text-amber-100 transition-colors"
+                    >
+                      <span>Read on Academia.edu</span>
+                      <svg
+                        className="w-3 h-3"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <title>Read on Academia.edu</title>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
-
-      {/* Bottom horizontal transition element */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-yellow-500/10 to-transparent pointer-events-none z-10" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50 z-10" />
     </section>
   );
 }
