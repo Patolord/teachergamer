@@ -78,11 +78,13 @@ export function useScrollAnimations() {
       ScrollTrigger.create({
         trigger: ".hero-section",
         start: "top top",
-        end: `+=${window.innerHeight * 7}px`,
+        // Use function for end so it recalculates on refresh (important for mobile)
+        end: () => `+=${window.innerHeight * 7}`,
         pin: true,
         markers: false,
         pinSpacing: true,
         scrub: true,
+        invalidateOnRefresh: true,
         onUpdate: contextSafe((self: ScrollTrigger) => {
           const progress = self.progress;
 
@@ -202,14 +204,26 @@ export function useScrollAnimations() {
     };
 
     const handleResize = () => {
+      // Recalculate and refresh ScrollTriggers on resize
+      // This is especially important for mobile where viewport height changes
       ScrollTrigger.refresh();
     };
 
+    // Also handle orientation changes on mobile
+    const handleOrientationChange = () => {
+      // Small delay to allow viewport to settle
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
+    };
+
     window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleOrientationChange);
 
     return () => {
       video.removeEventListener("loadeddata", handleLoadedData);
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleOrientationChange);
     };
   });
 

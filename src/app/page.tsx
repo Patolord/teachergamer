@@ -33,8 +33,8 @@ export default function Home() {
         progressBarInnerRef={progressBarInnerRef}
       />
 
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
+      <div id="smooth-wrapper" className="w-full overflow-x-hidden">
+        <div id="smooth-content" className="w-full">
           <HeroSection
             navRef={navRef}
             headerRef={headerRef}
@@ -42,7 +42,7 @@ export default function Home() {
             videoRef={videoRef}
             heroSectionRef={heroSectionRef}
           />
-          <div ref={sectionsWrapperRef} className="sections-wrapper">
+          <div ref={sectionsWrapperRef} className="sections-wrapper w-full">
             <TestimonialsSection sectionIndex={0} />
             <ShopSection sectionIndex={1} />
             <SubstackSection sectionIndex={2} />

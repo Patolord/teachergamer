@@ -29,6 +29,8 @@ export default function HeroSection({
         style={{
           transformStyle: "preserve-3d",
           perspective: "1000px",
+          height: "100vh",
+          minHeight: "-webkit-fill-available",
         }}
       >
         {/* Video for frame animation */}

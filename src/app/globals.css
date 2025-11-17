@@ -145,10 +145,19 @@
   * {
     @apply border-border outline-ring/50 m-0 p-0 box-border cursor-none;
   }
+  
+  html {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
   body {
     @apply bg-background text-foreground;
     font-family: "DM Mono", monospace;
     letter-spacing: var(--tracking-normal);
+    width: 100%;
+    min-width: 100%;
+    overflow-x: hidden;
   }
 
   img {
