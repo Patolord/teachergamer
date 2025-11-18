@@ -88,7 +88,7 @@ export default function ResearchSection({
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-yellow-500/10 to-transparent pointer-events-none z-10" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50 z-10" />
 
-      <div className="container mx-auto px-6 md:px-8 max-w-6xl relative z-10">
+      <div className="container mx-auto px-8 md:px-8 max-w-6xl relative z-10">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4 bg-[linear-gradient(135deg,#fff_0%,#c47020_20%,#d09a11_40%,#fff_100%)] bg-[length:200%_200%] bg-clip-text text-transparent inline-block whitespace-nowrap animate-gradientShift">
@@ -112,22 +112,22 @@ export default function ResearchSection({
               >
                 {/* Card frame */}
                 <div
-                  className="absolute inset-0 bg-center bg-contain bg-no-repeat drop-shadow-[0_25px_40px_rgba(0,0,0,0.7)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-[1.02]"
+                  className="absolute inset-0 bg-center bg-contain bg-no-repeat drop-shadow-[0_25px_40px_rgba(0,0,0,0.7)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-[1.02] "
                   style={{ backgroundImage: `url('${backgroundImage}')` }}
                 />
 
                 {/* Conteúdo em cima da moldura */}
-                <div className="relative h-full flex flex-col px-6 pt-8 pb-7">
+                <div className="relative h-full flex flex-col px-12 pt-20 pb-7">
                   {/* Título */}
                   <div className="mt-3">
-                    <h3 className="text-sm font-bold leading-snug text-amber-100 drop-shadow-md line-clamp-3 text-center">
+                    <h3 className="text-sm font-extrabold leading-snug line-clamp-3 text-center">
                       {article.title}
                     </h3>
                   </div>
 
                   {/* Texto (como “caixa de texto” da carta) */}
                   <div className="mt-4 flex-1">
-                    <div className="bg-[#f7ebcf]/95 border border-amber-900/40 rounded-md px-3 py-2 text-[10px] leading-snug text-gray-900 shadow-inner max-h-40 overflow-hidden">
+                    <div className=" rounded-md px-3 py-2 text-sm leading-snug text-gray-900 overflow-hidden h-full font-bold">
                       <p className="line-clamp-7">{article.abstract}</p>
                     </div>
                   </div>

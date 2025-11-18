@@ -207,20 +207,6 @@ export function useHeroScrollAnimation() {
           img.src = currentFrame(i);
           images[i] = img;
         }
-
-        // Handle window resize
-        const handleResize = () => {
-          setCanvasSize();
-          render();
-          ScrollTrigger.refresh();
-        };
-        window.addEventListener("resize", handleResize);
-
-        // Cleanup
-        return () => {
-          window.removeEventListener("resize", handleResize);
-          document.body.style.overflow = "";
-        };
       }, heroSectionRef);
 
       return () => {

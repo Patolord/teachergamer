@@ -2,6 +2,8 @@
 
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
+import Calendar from "./Calendar";
+import CalendarModal from "./CalendarModal";
 
 interface CalendarBookingSectionProps {
   sectionIndex?: number;
@@ -38,16 +40,11 @@ export default function CalendarBookingSection({
           Escolha a melhor data e horário para sua aventura
         </p>
 
-        <div>
-          <Cal
-            namespace="training-session"
-            calLink="up-craft-crew/training-session"
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-            config={{ layout: "month_view" }}
-          />
+        <div className="hidden lg:block">
+          <Calendar />
+        </div>
+        <div className="lg:hidden justify-center max-w-sm mx-auto">
+          <CalendarModal />
         </div>
       </div>
 

@@ -43,12 +43,13 @@ export default function Home() {
             heroSectionRef={heroSectionRef}
           />
           <div ref={sectionsWrapperRef} className="sections-wrapper w-full">
-            <TestimonialsSection sectionIndex={0} />
-            <ShopSection sectionIndex={1} />
-            <SubstackSection sectionIndex={2} />
-            <CalendarBookingSection sectionIndex={3} />
-            <CoursesSection sectionIndex={4} />
-            <ResearchSection sectionIndex={5} />
+            <ShopSection sectionIndex={0} />
+            <SubstackSection sectionIndex={1} />
+            <CalendarBookingSection sectionIndex={2} />
+            <CoursesSection sectionIndex={3} />
+            <ResearchSection sectionIndex={4} />
+
+            <TestimonialsSection sectionIndex={5} />
             <ContactSection sectionIndex={6} />
           </div>
         </div>

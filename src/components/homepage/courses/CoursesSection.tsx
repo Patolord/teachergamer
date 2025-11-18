@@ -47,7 +47,7 @@ export default function CoursesSection({ sectionIndex }: CoursesSectionProps) {
 
       <div className="container mx-auto px-8 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-semibold tracking-tight mb-4 bg-[linear-gradient(135deg,#fff_0%,#c47020_20%,#d09a11_40%,#fff_100%)] bg-[length:200%_200%] bg-clip-text text-transparent text-center inline-block whitespace-nowrap animate-gradientShift">
+          <h2 className="text-4xl font-semibold tracking-tight mb-4 bg-[linear-gradient(135deg,#fff_0%,#c47020_20%,#d09a11_40%,#fff_100%)] bg-[length:200%_200%] bg-clip-text text-transparent text-center inline-block animate-gradientShift">
             Choose your next Adventure!
           </h2>
         </div>
