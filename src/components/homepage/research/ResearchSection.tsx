@@ -75,14 +75,10 @@ export default function ResearchSection({
   return (
     <section
       data-scroll-section={sectionIndex}
-      className="relative w-full flex items-center justify-center bg-black py-24"
+      className="relative w-full flex items-center justify-center py-24"
     >
       {/* Background geral */}
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-40"
-        style={{ backgroundImage: "url('/0_0.jpeg')" }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
+      <div className="absolute inset-0 bg-cover bg-no-repeat bg-center bg-[url('/0_0.jpeg')]" />
 
       {/* Transições top/bottom */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50 z-10" />
