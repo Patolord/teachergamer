@@ -137,7 +137,7 @@ const Testimonials = ({ sectionIndex }: TestimonialsProps) => {
         className="flex-shrink-0
         w-[380px] min-h-[120px]
         md:w-[320px] md:min-h-[110px] md:p-5
-        bg-white border border-yellow-500
+        bg-yellow-100 border border-yellow-500
         rounded-2xl p-6 cursor-pointer whitespace-normal
         will-change-transform
         transition-transform duration-200 ease-in-out
