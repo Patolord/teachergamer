@@ -20,27 +20,27 @@ export default function ContactSection({ sectionIndex }: ContactSectionProps) {
           Have questions? We'd love to hear from you. Send us a message and
           we'll respond as soon as possible.
         </p>
-        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20">
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/90">
           <form className="space-y-6">
             <div>
               <input
                 type="text"
                 placeholder="Your Name"
-                className="w-full px-6 py-4 rounded-lg text-gray-900 text-lg"
+                className="w-full px-6 py-4 rounded-lg text-white text-lg border border-white/30"
               />
             </div>
             <div>
               <input
                 type="email"
                 placeholder="Your Email"
-                className="w-full px-6 py-4 rounded-lg text-gray-900 text-lg"
+                className="w-full px-6 py-4 rounded-lg text-white text-lg border border-white/30"
               />
             </div>
             <div>
               <textarea
                 placeholder="Your Message"
                 rows={5}
-                className="w-full px-6 py-4 rounded-lg text-gray-900 text-lg resize-none"
+                className="w-full px-6 py-4 rounded-lg text-white text-lg resize-none border border-white/30"
               />
             </div>
             <button
