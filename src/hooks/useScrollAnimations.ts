@@ -18,6 +18,8 @@ export function useScrollAnimations() {
   const sectionsWrapperRef = useRef<HTMLDivElement>(null);
   const animationTimelineRef = useRef<gsap.core.Timeline | null>(null);
   const fadeOverlayRef = useRef<HTMLDivElement | null>(null);
+  const floatingTextRef = useRef<HTMLDivElement | null>(null);
+  const floatingText2Ref = useRef<HTMLDivElement | null>(null);
 
   const { contextSafe } = useGSAP(() => {
     const nav = navRef.current;
@@ -56,10 +58,10 @@ export function useScrollAnimations() {
         opacity: 0,
       });
     }
-    // Ensure hero section always has black background
+    // Ensure hero section always has black background and initial opacity
     const heroSection = heroSectionRef.current;
     if (heroSection) {
-      gsap.set(heroSection, { backgroundColor: "#000000" });
+      gsap.set(heroSection, { backgroundColor: "#000000", opacity: 1 });
     }
 
     // Sections wrapper - create progress bar (keep scroll-based progress bar)
@@ -140,36 +142,36 @@ export function useScrollAnimations() {
         },
       });
 
-      // 0-10%: Fade out nav
+      // 0-5%: Fade out nav very quickly
       if (nav) {
         tl.to(nav, {
           opacity: 0,
-          duration: totalDuration * 0.1,
-          ease: "none",
+          duration: totalDuration * 0.05,
+          ease: "power2.in",
         });
       }
 
-      // 0-20%: Header zoom (translateZ)
+      // 0-15%: Header zoom (translateZ) - faster
       if (header) {
         tl.to(
           header,
           {
             transform: "translate(-50%, -50%) translateZ(-500px)",
-            duration: totalDuration * 0.2,
+            duration: totalDuration * 0.15,
             ease: "none",
           },
           0
         );
 
-        // 20-25%: Header fade out
+        // 15-18%: Header fade out (very fast)
         tl.to(
           header,
           {
             opacity: 0,
-            duration: totalDuration * 0.05,
-            ease: "none",
+            duration: totalDuration * 0.03,
+            ease: "power2.in",
           },
-          totalDuration * 0.2
+          totalDuration * 0.15
         );
       }
 
@@ -191,6 +193,157 @@ export function useScrollAnimations() {
         },
         0
       );
+
+      // 35-45%: First floating text animation (back layer - appears first, fades completely)
+      let floatingText = floatingTextRef.current;
+      if (!floatingText && heroSection) {
+        floatingText = document.createElement("div");
+        floatingText.innerHTML = "Welcome to the Revolution";
+        floatingText.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) scale(0.9);
+          color: #ffffff;
+          font-size: clamp(2rem, 5vw, 4rem);
+          font-weight: bold;
+          text-align: center;
+          z-index: 1000;
+          opacity: 0;
+          pointer-events: none;
+          text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+          white-space: nowrap;
+          filter: blur(2px);
+        `;
+        document.body.appendChild(floatingText);
+        floatingTextRef.current = floatingText;
+      }
+
+      if (floatingText) {
+        // Fade in and float up (35-38%)
+        tl.to(
+          floatingText,
+          {
+            opacity: 1,
+            y: -20,
+            scale: 0.9,
+            duration: totalDuration * 0.03,
+            ease: "power2.out",
+          },
+          totalDuration * 0.35
+        );
+
+        // Hold visible (38-42%)
+        tl.to(
+          floatingText,
+          {
+            opacity: 1,
+            duration: totalDuration * 0.04,
+            ease: "none",
+          },
+          totalDuration * 0.38
+        );
+
+        // Fade out completely (42-45%)
+        tl.to(
+          floatingText,
+          {
+            opacity: 0,
+            y: -40,
+            scale: 0.85,
+            duration: totalDuration * 0.03,
+            ease: "power2.in",
+          },
+          totalDuration * 0.42
+        );
+
+        // Remove first floating text after fade out
+        tl.call(
+          () => {
+            if (floatingText) {
+              floatingText.remove();
+              floatingTextRef.current = null;
+            }
+          },
+          [],
+          totalDuration * 0.45
+        );
+      }
+
+      // 45-55%: Second floating text animation (front layer - appears after first fades)
+      let floatingText2 = floatingText2Ref.current;
+      if (!floatingText2 && heroSection) {
+        floatingText2 = document.createElement("div");
+        floatingText2.innerHTML = "Join the Movement";
+        floatingText2.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) scale(1);
+          color: #ffffff;
+          font-size: clamp(2rem, 5vw, 4rem);
+          font-weight: bold;
+          text-align: center;
+          z-index: 1001;
+          opacity: 0;
+          pointer-events: none;
+          text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+          white-space: nowrap;
+        `;
+        document.body.appendChild(floatingText2);
+        floatingText2Ref.current = floatingText2;
+      }
+
+      if (floatingText2) {
+        // Fade in and float up (45-48%) - starts right after first text fades
+        tl.to(
+          floatingText2,
+          {
+            opacity: 1,
+            y: -20,
+            scale: 1,
+            duration: totalDuration * 0.03,
+            ease: "power2.out",
+          },
+          totalDuration * 0.45
+        );
+
+        // Hold visible (48-52%)
+        tl.to(
+          floatingText2,
+          {
+            opacity: 1,
+            duration: totalDuration * 0.04,
+            ease: "none",
+          },
+          totalDuration * 0.48
+        );
+
+        // Fade out (52-55%)
+        tl.to(
+          floatingText2,
+          {
+            opacity: 0,
+            y: -40,
+            scale: 1.1,
+            duration: totalDuration * 0.03,
+            ease: "power2.in",
+          },
+          totalDuration * 0.52
+        );
+
+        // Remove second floating text after fade out
+        tl.call(
+          () => {
+            if (floatingText2) {
+              floatingText2.remove();
+              floatingText2Ref.current = null;
+            }
+          },
+          [],
+          totalDuration * 0.55
+        );
+      }
 
       // 50-80%: Hero image animation
       if (heroImg) {
@@ -252,6 +405,15 @@ export function useScrollAnimations() {
           if (overlay) {
             overlay.remove();
             fadeOverlayRef.current = null;
+          }
+          // Clean up floating texts if still exists
+          if (floatingTextRef.current) {
+            floatingTextRef.current.remove();
+            floatingTextRef.current = null;
+          }
+          if (floatingText2Ref.current) {
+            floatingText2Ref.current.remove();
+            floatingText2Ref.current = null;
           }
         },
         [],
