@@ -24,6 +24,7 @@ export default function Home() {
     progressBarRef,
     progressBarInnerRef,
     sectionsWrapperRef,
+    playAnimation,
   } = useScrollAnimations();
 
   return (
@@ -41,6 +42,7 @@ export default function Home() {
             heroImgRef={heroImgRef}
             videoRef={videoRef}
             heroSectionRef={heroSectionRef}
+            onGetStartedClick={playAnimation}
           />
           <div ref={sectionsWrapperRef} className="sections-wrapper w-full">
             <ShopSection sectionIndex={0} />

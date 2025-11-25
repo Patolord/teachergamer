@@ -11,6 +11,7 @@ interface HeroSectionProps {
   heroImgRef?: RefObject<HTMLDivElement | null>;
   videoRef: RefObject<HTMLVideoElement | null>;
   heroSectionRef: RefObject<HTMLElement | null>;
+  onGetStartedClick?: () => void;
 }
 
 export default function HeroSection({
@@ -18,6 +19,7 @@ export default function HeroSection({
   headerRef,
   videoRef,
   heroSectionRef,
+  onGetStartedClick,
 }: HeroSectionProps) {
   return (
     <>
@@ -45,7 +47,7 @@ export default function HeroSection({
             position: "absolute",
             top: 0,
             left: 0,
-            backgroundColor: "var(--bg)",
+            backgroundColor: "#000000",
           }}
         />
 
@@ -64,6 +66,7 @@ export default function HeroSection({
             title="Teacher Gamer Revolution"
             description="The future of education is here. Join the Teacher Gamer Revolution and revolutionize the way you learn."
             buttonText="Get Started Now"
+            onButtonClick={onGetStartedClick}
           />
         </div>
 
