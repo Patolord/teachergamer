@@ -33,7 +33,9 @@ export default function EletricCard({
     >
       <Card className="border-0 h-full min-h-[400px] bg-black/50 backdrop-blur-sm text-white flex flex-col">
         <CardHeader>
-          <CardTitle className="text-3xl mb-4 font-serif">{title}</CardTitle>
+          <CardTitle className="text-3xl mb-4 font-pirata-one">
+            {title}
+          </CardTitle>
           <CardDescription className="text-gray-400 font-light text-base">
             {description}
           </CardDescription>

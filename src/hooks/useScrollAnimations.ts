@@ -36,7 +36,7 @@ export function useScrollAnimations() {
     if (!video) return;
 
     // Set video source and configuration
-    video.src = "/to-the-tower.mp4";
+    video.src = "/to-the-tower-2-adjusted.mp4";
     video.pause(); // Ensure video doesn't autoplay
     video.currentTime = 0; // Start at first frame
 
@@ -173,8 +173,8 @@ export function useScrollAnimations() {
         );
       }
 
-      // 0-90%: Play video
-      const videoDuration = totalDuration * 0.9;
+      // 0-80%: Play video
+      const videoDuration = totalDuration * 0.8;
       tl.to(
         video,
         {
@@ -192,7 +192,7 @@ export function useScrollAnimations() {
         0
       );
 
-      // 60-90%: Hero image animation
+      // 50-80%: Hero image animation
       if (heroImg) {
         tl.to(
           heroImg,
@@ -202,11 +202,11 @@ export function useScrollAnimations() {
             duration: totalDuration * 0.2,
             ease: "power2.out",
           },
-          totalDuration * 0.6
+          totalDuration * 0.5
         );
       }
 
-      // 90-100%: Create black overlay and fade in to cover everything
+      // 80-90%: Create black overlay and fade in to cover everything
       // Create overlay element if it doesn't exist
       let overlay = fadeOverlayRef.current;
       if (!overlay && heroSection) {
@@ -235,7 +235,7 @@ export function useScrollAnimations() {
             duration: totalDuration * 0.1,
             ease: "power2.in",
           },
-          totalDuration * 0.9
+          totalDuration * 0.8
         );
       }
 
@@ -255,7 +255,7 @@ export function useScrollAnimations() {
           }
         },
         [],
-        totalDuration * 1.0
+        totalDuration * 0.9
       );
 
       animationTimelineRef.current = tl;

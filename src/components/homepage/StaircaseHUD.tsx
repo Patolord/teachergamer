@@ -219,7 +219,7 @@ export default function StaircaseHUD() {
                       textShadow: isActive
                         ? "0 0 6px #ffd700"
                         : "1px 1px 2px #000",
-                      fontFamily: "serif",
+                      fontFamily: "var(--font-amarante), cursive",
                     }}
                     transform={`rotate(${-currentSection * 51.43}, ${textX}, ${textY})`}
                   >
@@ -247,7 +247,7 @@ export default function StaircaseHUD() {
                       fontWeight="bold"
                       fill={isActive ? "#000" : "#fff"}
                       className="pointer-events-none select-none"
-                      style={{ fontFamily: "serif" }}
+                      style={{ fontFamily: "var(--font-amarante), cursive" }}
                     >
                       {index + 1}
                     </text>
@@ -268,8 +268,8 @@ export default function StaircaseHUD() {
             <p
               className="text-center text-yellow-400 text-[10px] font-bold tracking-wider px-2 py-1 bg-black/60 rounded"
               style={{
-                fontFamily: "serif",
                 textShadow: "0 0 8px rgba(212, 175, 55, 0.5)",
+                fontFamily: "var(--font-amarante), cursive",
               }}
             >
               LEVEL {currentSection + 1}

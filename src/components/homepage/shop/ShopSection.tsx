@@ -20,7 +20,7 @@ export default function ShopSection({ sectionIndex }: ShopSectionProps) {
         </div>
 
         <div className="flex flex-col text-left space-y-6 md:space-y-4 w-full">
-          <h1 className="text-white text-3xl md:text-4xl font-serif">
+          <h1 className="text-white text-3xl md:text-4xl">
             The Teacher-Gamer Handbook
           </h1>
 

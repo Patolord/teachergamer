@@ -13,8 +13,8 @@ export default function ContactSection({ sectionIndex }: ContactSectionProps) {
       <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-yellow-500/10 to-transparent pointer-events-none" />
 
       <div className="container mx-auto px-8 py-16 max-w-4xl relative z-10">
-        <h2 className="text-6xl font-bold text-white mb-8 text-center max-[1000px]:text-4xl font-vintage1">
-          Get In Touch Hello Test
+        <h2 className="text-6xl font-bold text-white mb-8 text-center max-[1000px]:text-4xl font-aladin">
+          Get In Touch
         </h2>
         <p className="text-white/90 text-xl mb-12 text-center max-w-2xl mx-auto">
           Have questions? We'd love to hear from you. Send us a message and
