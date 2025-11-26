@@ -9,7 +9,7 @@ type HeroContentProps = {
   title: string;
   description: string;
   buttonText: string;
-  onButtonClick?: (e?: React.MouseEvent<HTMLAnchorElement>) => void;
+  onButtonClick?: (e?: React.MouseEvent<HTMLElement>) => void;
   href?: string;
 };
 

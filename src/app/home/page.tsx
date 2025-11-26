@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProgressBar from "@/components/ProgressBar";
 import ScrollSlider from "@/components/ScrollSlider";
 import SplashCursor from "@/components/SplashCursor";
@@ -17,8 +17,14 @@ import SubstackSection from "../../components/homepage/substack/SubstackSection"
 import TestimonialsSection from "../../components/homepage/testimonials/TestimonialsSection";
 
 export default function HomePage() {
-  const { progressBarRef, progressBarInnerRef, sectionsWrapperRef } =
-    useScrollAnimations();
+  const {
+    progressBarRef,
+    progressBarInnerRef,
+    staircaseHUDRef,
+    sectionsWrapperRef,
+  } = useScrollAnimations();
+  const secondaryHeroRef = useRef<HTMLElement>(null);
+  const [showHUDAndProgress, setShowHUDAndProgress] = useState(false);
 
   // Remove transition overlay after page loads
   useEffect(() => {
@@ -63,17 +69,35 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Hide StaircaseHUD and ProgressBar when SecondaryHeroSection is visible
+  useEffect(() => {
+    const handleScroll = () => {
+      const heroSection = secondaryHeroRef.current;
+      if (!heroSection) return;
+
+      const rect = heroSection.getBoundingClientRect();
+      const isHeroVisible = rect.bottom > 0 && rect.top < window.innerHeight;
+
+      setShowHUDAndProgress(!isHeroVisible);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <Navigation style={{ opacity: 1 }} />
-      <ProgressBar
-        progressBarRef={progressBarRef}
-        progressBarInnerRef={progressBarInnerRef}
-      />
 
       <div id="smooth-wrapper" className="w-full overflow-x-hidden">
         <div id="smooth-content" className="w-full">
-          <SecondaryHeroSection />
+          <SecondaryHeroSection ref={secondaryHeroRef} />
           <div ref={sectionsWrapperRef} className="sections-wrapper w-full">
             <ShopSection sectionIndex={0} />
             <SubstackSection sectionIndex={1} />
@@ -87,7 +111,18 @@ export default function HomePage() {
         </div>
       </div>
 
-      <StaircaseHUD />
+      {/* Hide StaircaseHUD and ProgressBar when SecondaryHeroSection is visible */}
+      <div
+        className={`transition-opacity duration-300 ${
+          showHUDAndProgress ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <StaircaseHUD staircaseHUDRef={staircaseHUDRef} />
+        <ProgressBar
+          progressBarRef={progressBarRef}
+          progressBarInnerRef={progressBarInnerRef}
+        />
+      </div>
       <ScrollSlider sectionCount={7} />
       <SplashCursor />
     </>

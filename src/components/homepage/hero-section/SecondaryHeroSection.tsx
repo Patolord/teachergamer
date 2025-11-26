@@ -3,24 +3,30 @@
 import { ArrowRight, Shield, Star, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { forwardRef } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function SecondaryHeroSection() {
+const SecondaryHeroSection = forwardRef<HTMLElement>((_props, ref) => {
   return (
-    <section
-      className="relative overflow-hidden"
-      style={{
-        backgroundColor: "hsl(39, 63%, 89%)",
-      }}
-    >
-      <div className="absolute inset-0 bg-secondary/30" />
+    <section ref={ref} className="relative overflow-hidden">
+      {/* Background image with overlay */}
+      <div className="absolute inset-0 z-0">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: "url('/frame_001.png')",
+          }}
+        />
+        {/* Light overlay for text readability - only on background */}
+        <div className="absolute inset-0 bg-white/60" />
+      </div>
 
-      <div className="container mx-auto px-4 py-16 md:py-24 lg:py-32 relative">
+      <div className="container mx-auto px-4 py-16 md:py-24 lg:py-32 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-full border border-accent/20">
-              <Star className="w-4 h-4 text-accent" />
-              <span className="text-sm font-semibold text-accent">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border ">
+              <Star className="w-4 h-4" />
+              <span className="text-sm font-semibold">
                 Now enrolling for Fall 2025
               </span>
             </div>
@@ -156,4 +162,8 @@ export default function SecondaryHeroSection() {
       </div>
     </section>
   );
-}
+});
+
+SecondaryHeroSection.displayName = "SecondaryHeroSection";
+
+export default SecondaryHeroSection;

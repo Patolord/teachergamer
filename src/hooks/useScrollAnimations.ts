@@ -15,6 +15,7 @@ export function useScrollAnimations() {
   const heroSectionRef = useRef<HTMLElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressBarInnerRef = useRef<HTMLDivElement>(null);
+  const staircaseHUDRef = useRef<HTMLDivElement>(null);
   const sectionsWrapperRef = useRef<HTMLDivElement>(null);
   const animationTimelineRef = useRef<gsap.core.Timeline | null>(null);
   const fadeOverlayRef = useRef<HTMLDivElement | null>(null);
@@ -28,11 +29,21 @@ export function useScrollAnimations() {
     const video = videoRef.current;
     const progressBar = progressBarRef.current;
     const progressBarInner = progressBarInnerRef.current;
+    const staircaseHUD = staircaseHUDRef.current;
 
     // Set progress bar opacity to 0 immediately
     if (progressBar && progressBarInner) {
       gsap.set(progressBar, { opacity: 0, immediateRender: true });
       gsap.set(progressBarInner, { height: "0%", immediateRender: true });
+    }
+
+    // Set staircase HUD opacity to 0 and translate off-screen immediately
+    if (staircaseHUD) {
+      gsap.set(staircaseHUD, {
+        opacity: 0,
+        x: -200,
+        immediateRender: true,
+      });
     }
 
     // Only set up video-related animations if video exists (for hero page)
@@ -84,21 +95,53 @@ export function useScrollAnimations() {
           if (progressBar) {
             gsap.to(progressBar, { opacity: 1, duration: 0.3 });
           }
+          if (staircaseHUD) {
+            gsap.to(staircaseHUD, {
+              opacity: 1,
+              x: 0,
+              duration: 0.5,
+              ease: "power2.out",
+            });
+          }
         }),
         onLeave: contextSafe(() => {
           if (progressBar) {
             gsap.to(progressBar, { opacity: 0, duration: 0.3 });
+          }
+          if (staircaseHUD) {
+            gsap.to(staircaseHUD, {
+              opacity: 0,
+              x: -200,
+              duration: 0.5,
+              ease: "power2.in",
+            });
           }
         }),
         onEnterBack: contextSafe(() => {
           if (progressBar) {
             gsap.to(progressBar, { opacity: 1, duration: 0.3 });
           }
+          if (staircaseHUD) {
+            gsap.to(staircaseHUD, {
+              opacity: 1,
+              x: 0,
+              duration: 0.5,
+              ease: "power2.out",
+            });
+          }
         }),
         onLeaveBack: contextSafe(() => {
           if (progressBar && progressBarInner) {
             gsap.to(progressBar, { opacity: 0, duration: 0.3 });
             gsap.set(progressBarInner, { height: "0%" });
+          }
+          if (staircaseHUD) {
+            gsap.to(staircaseHUD, {
+              opacity: 0,
+              x: -200,
+              duration: 0.5,
+              ease: "power2.in",
+            });
           }
         }),
       });
@@ -455,6 +498,7 @@ export function useScrollAnimations() {
     heroSectionRef,
     progressBarRef,
     progressBarInnerRef,
+    staircaseHUDRef,
     sectionsWrapperRef,
     playAnimation,
   };

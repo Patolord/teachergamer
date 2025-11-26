@@ -1,26 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  BookOpen,
+  Calendar,
+  FileText,
+  GraduationCap,
+  Mail,
+  MessageSquare,
+  ShoppingBag,
+} from "lucide-react";
+import { type RefObject, useEffect, useState } from "react";
 
 interface Section {
+  id: string;
   name: string;
+  icon: typeof ShoppingBag;
   index: number;
 }
 
 const SECTIONS: Section[] = [
-  { name: "Testimonials", index: 0 },
-  { name: "Shop", index: 1 },
-  { name: "Substack", index: 2 },
-  { name: "Calendar", index: 3 },
-  { name: "Courses", index: 4 },
-  { name: "Research", index: 5 },
-  { name: "Contact", index: 6 },
+  { id: "shop", name: "Shop", icon: ShoppingBag, index: 0 },
+  { id: "substack", name: "Substack", icon: BookOpen, index: 1 },
+  { id: "calendar", name: "Calendar", icon: Calendar, index: 2 },
+  { id: "courses", name: "Courses", icon: GraduationCap, index: 3 },
+  { id: "research", name: "Research", icon: FileText, index: 4 },
+  { id: "testimonials", name: "Reviews", icon: MessageSquare, index: 5 },
+  { id: "contact", name: "Contact", icon: Mail, index: 6 },
 ];
 
-export default function StaircaseHUD() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [currentSection, setCurrentSection] = useState(0);
+interface StaircaseHUDProps {
+  staircaseHUDRef?: RefObject<HTMLDivElement | null>;
+}
+
+export default function StaircaseHUD({ staircaseHUDRef }: StaircaseHUDProps) {
+  const [activeSection, setActiveSection] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
+  const [showRoutes, setShowRoutes] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -28,42 +43,40 @@ export default function StaircaseHUD() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Check if hero section is out of view (hero is 100vh)
-      const heroHeight = window.innerHeight;
-      const scrollY = window.scrollY;
-
-      // Show HUD after scrolling past hero section
-      setIsVisible(scrollY > heroHeight * 10);
-
       // Find current section based on scroll position
-      const sections = document.querySelectorAll("[data-scroll-section]");
-      let foundSection = 0;
+      const sectionElements = SECTIONS.map((s) => ({
+        id: s.id,
+        index: s.index,
+        element: document.querySelector(`[data-scroll-section="${s.index}"]`),
+      }));
 
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        const sectionIndex = parseInt(
-          section.getAttribute("data-scroll-section") || "0",
-        );
-
-        // Check if section is in the middle third of viewport
-        if (
-          rect.top < window.innerHeight / 2 &&
-          rect.bottom > window.innerHeight / 2
-        ) {
-          foundSection = sectionIndex;
+      // Check from bottom to top to find the active section
+      for (let i = sectionElements.length - 1; i >= 0; i--) {
+        const el = sectionElements[i].element;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= window.innerHeight / 2) {
+            setActiveSection(sectionElements[i].index);
+            break;
+          }
         }
-      });
-
-      setCurrentSection(foundSection);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
     handleScroll(); // Initial check
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    const timeoutId = setTimeout(handleScroll, 100);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
-  const navigateToSection = (sectionIndex: number) => {
+  const scrollToSection = (sectionIndex: number) => {
     const section = document.querySelector(
       `[data-scroll-section="${sectionIndex}"]`,
     );
@@ -76,43 +89,45 @@ export default function StaircaseHUD() {
     return null;
   }
 
+  const activeIndex = activeSection;
+  const radius = 70;
+  const centerX = 90;
+  const centerY = 90;
+
   return (
     <div
-      className={`hidden md:block fixed top-4 left-4 z-50 transition-all duration-500 ${
-        isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-full"
-      }`}
+      ref={staircaseHUDRef}
+      className="group fixed left-4 top-4 z-50 pointer-events-auto"
     >
-      {/* Medieval Frame Container - Circular */}
-      <div className="relative">
-        {/* Main SVG Container with circular stone background */}
-        <div className="relative w-40 h-40 rounded-full bg-gradient-to-br from-gray-800 via-gray-900 to-black border-4 border-yellow-700 shadow-2xl overflow-hidden">
-          {/* Stone texture overlay */}
-          <div
-            className="absolute inset-0 opacity-20 rounded-full"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            }}
-          />
+      {/* Circular staircase container */}
+      <div className="relative w-[180px] h-[180px]">
+        {/* Central section label */}
+        <button
+          type="button"
+          onClick={() => setShowRoutes(!showRoutes)}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary/30 flex items-center justify-center z-10 cursor-pointer transition-transform hover:scale-110"
+        >
+          <span className="text-xs font-bold text-primary font-serif text-center px-1">
+            {SECTIONS.find((s) => s.index === activeSection)?.name}
+          </span>
+        </button>
 
-          {/* SVG Spiral Staircase with rotation */}
+        {/* Spinning staircase dial - always visible */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40">
           <svg
             viewBox="0 0 160 160"
             className="w-full h-full transition-transform duration-700 ease-out"
             style={{
-              filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.5))",
-              transform: `rotate(${currentSection * 51.43}deg)`, // 360/7 = ~51.43 degrees per section
+              transform: `rotate(${activeIndex * 51.43}deg)`, // 360/7 = ~51.43 degrees per section
             }}
           >
-            <title>Staircase Navigation</title>
-            {/* Center darkness (dungeon depth) */}
+            <title>Staircase Navigation Dial</title>
             <defs>
               <radialGradient id="centerDarkness">
                 <stop offset="0%" stopColor="#0a0a0a" />
                 <stop offset="30%" stopColor="#1a1a1a" />
                 <stop offset="100%" stopColor="transparent" />
               </radialGradient>
-
-              {/* Glow effect for active step */}
               <filter id="activeGlow">
                 <feGaussianBlur stdDeviation="2" result="coloredBlur" />
                 <feMerge>
@@ -125,10 +140,10 @@ export default function StaircaseHUD() {
             {/* Center dark pit */}
             <circle cx="80" cy="80" r="25" fill="url(#centerDarkness)" />
 
-            {/* Draw actual staircase steps spiraling down */}
+            {/* Draw spiral staircase steps */}
             {SECTIONS.map((section, index) => {
-              const isActive = currentSection === section.index;
-              const isPassed = currentSection > section.index;
+              const isActive = activeSection === section.index;
+              const isPassed = activeSection > section.index;
 
               // Calculate angle for this step (clockwise spiral)
               const baseAngle = (index / SECTIONS.length) * 360;
@@ -165,20 +180,8 @@ export default function StaircaseHUD() {
                 Z
               `;
 
-              // Text position (middle of step)
-              const textAngleRad = ((baseAngle - 90) * Math.PI) / 180;
-              const textRadius = (outerRadius + innerRadius) / 2;
-              const textX = 80 + Math.cos(textAngleRad) * textRadius;
-              const textY = 80 + Math.sin(textAngleRad) * textRadius;
-
               return (
-                // biome-ignore lint/a11y/noStaticElementInteractions: SVG navigation component
-                <g
-                  key={section.index}
-                  onClick={() => navigateToSection(section.index)}
-                  style={{ cursor: "pointer" }}
-                  className="transition-all duration-300"
-                >
+                <g key={section.index}>
                   {/* Main step */}
                   <path
                     d={stepPath}
@@ -188,7 +191,7 @@ export default function StaircaseHUD() {
                     stroke={isActive ? "#ffd700" : "#3a3a3a"}
                     strokeWidth="1.5"
                     filter={isActive ? "url(#activeGlow)" : ""}
-                    className="transition-all duration-300 hover:fill-yellow-600"
+                    className="transition-all duration-300"
                   />
 
                   {/* Step edge highlight (3D effect) */}
@@ -205,77 +208,116 @@ export default function StaircaseHUD() {
                     opacity="0.8"
                   />
 
-                  {/* Counter-rotate text so it stays readable */}
-                  <text
-                    x={textX}
-                    y={textY}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fontSize="8"
-                    fontWeight="bold"
-                    fill={isActive ? "#000" : "#fff"}
-                    className="pointer-events-none select-none"
-                    style={{
-                      textShadow: isActive
-                        ? "0 0 6px #ffd700"
-                        : "1px 1px 2px #000",
-                      fontFamily: "var(--font-amarante), cursive",
-                    }}
-                    transform={`rotate(${-currentSection * 51.43}, ${textX}, ${textY})`}
-                  >
-                    {section.name}
-                  </text>
-
-                  {/* Step number */}
-                  <g
-                    transform={`rotate(${-currentSection * 51.43}, ${outerX1}, ${outerY1})`}
-                  >
-                    <circle
-                      cx={outerX1}
-                      cy={outerY1}
-                      r="5"
-                      fill={isActive ? "#ffd700" : "#2a2a2a"}
-                      stroke={isActive ? "#fff" : "#1a1a1a"}
-                      strokeWidth="1"
-                    />
-                    <text
-                      x={outerX1}
-                      y={outerY1}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      fontSize="6"
-                      fontWeight="bold"
-                      fill={isActive ? "#000" : "#fff"}
-                      className="pointer-events-none select-none"
-                      style={{ fontFamily: "var(--font-amarante), cursive" }}
-                    >
-                      {index + 1}
-                    </text>
-                  </g>
+                  {/* Step number indicator */}
+                  <circle
+                    cx={outerX1}
+                    cy={outerY1}
+                    r="5"
+                    fill={isActive ? "#ffd700" : "#2a2a2a"}
+                    stroke={isActive ? "#fff" : "#1a1a1a"}
+                    strokeWidth="1"
+                  />
                 </g>
               );
             })}
           </svg>
-
-          {/* Title at bottom - counter-rotates to stay readable */}
-          <div
-            className="absolute inset-0 flex items-end justify-center pb-2 pointer-events-none"
-            style={{
-              transform: `rotate(${-currentSection * 51.43}deg)`,
-              transition: "transform 0.7s ease-out",
-            }}
-          >
-            <p
-              className="text-center text-yellow-400 text-[10px] font-bold tracking-wider px-2 py-1 bg-black/60 rounded"
-              style={{
-                textShadow: "0 0 8px rgba(212, 175, 55, 0.5)",
-                fontFamily: "var(--font-amarante), cursive",
-              }}
-            >
-              LEVEL {currentSection + 1}
-            </p>
-          </div>
         </div>
+
+        {/* Spiral path background - hidden by default, shown on hover or click */}
+        <svg
+          className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${
+            showRoutes ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          }`}
+          viewBox="0 0 180 180"
+          aria-label="Navigation progress circle"
+        >
+          <title>Navigation Progress</title>
+          <circle
+            cx={centerX}
+            cy={centerY}
+            r={radius}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            className="text-muted"
+          />
+          {/* Progress arc */}
+          <circle
+            cx={centerX}
+            cy={centerY}
+            r={radius}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            className="text-primary"
+            strokeDasharray={`${
+              ((activeIndex + 1) / SECTIONS.length) * 2 * Math.PI * radius
+            } ${2 * Math.PI * radius}`}
+            transform={`rotate(-90 ${centerX} ${centerY})`}
+            style={{ transition: "stroke-dasharray 0.5s ease" }}
+          />
+        </svg>
+
+        {/* Steps arranged in a circle - hidden by default, shown on hover or click */}
+        <div
+          className={`absolute inset-0 transition-opacity duration-300 ${
+            showRoutes
+              ? "opacity-100 visible pointer-events-auto"
+              : "opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto"
+          }`}
+        >
+          {SECTIONS.map((section, index) => {
+            const isActive = activeSection === section.index;
+            const isPast = index <= activeIndex;
+            const Icon = section.icon;
+
+            const angle = (index / SECTIONS.length) * 2 * Math.PI - Math.PI / 2;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+
+            return (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => scrollToSection(section.index)}
+                className="absolute transition-all duration-300"
+                style={{
+                  left: `${x}px`,
+                  top: `${y}px`,
+                  transform: "translate(-50%, -50%)",
+                }}
+                aria-label={`Navigate to ${section.name} section`}
+              >
+                {/* Step circle */}
+                <div
+                  className={`relative flex items-center justify-center rounded-full transition-all duration-300 border-2 ${
+                    isActive
+                      ? "w-11 h-11 bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/40 scale-110"
+                      : isPast
+                        ? "w-9 h-9 bg-primary/20 text-primary border-primary/40"
+                        : "w-9 h-9 bg-background text-muted-foreground border-muted"
+                  }`}
+                >
+                  <Icon className={isActive ? "w-5 h-5" : "w-4 h-4"} />
+
+                  {/* Active pulse ring */}
+                  {isActive && (
+                    <div className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-30" />
+                  )}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Level label */}
+      <div className="text-center mt-2">
+        <span className="text-xs text-muted-foreground font-medium">
+          Level {activeIndex + 1}
+        </span>
       </div>
     </div>
   );
