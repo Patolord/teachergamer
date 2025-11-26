@@ -35,36 +35,38 @@ export function useScrollAnimations() {
       gsap.set(progressBarInner, { height: "0%", immediateRender: true });
     }
 
-    if (!video) return;
+    // Only set up video-related animations if video exists (for hero page)
+    if (video) {
+      // Set video source and configuration
+      video.src = "/to-the-tower-2-adjusted.mp4";
+      video.pause(); // Ensure video doesn't autoplay
+      video.currentTime = 0; // Start at first frame
 
-    // Set video source and configuration
-    video.src = "/to-the-tower-2-adjusted.mp4";
-    video.pause(); // Ensure video doesn't autoplay
-    video.currentTime = 0; // Start at first frame
-
-    // Set initial states
-    if (nav) {
-      gsap.set(nav, { opacity: 1 });
-    }
-    if (header) {
-      gsap.set(header, {
-        transform: "translate(-50%, -50%) translateZ(0px)",
-        opacity: 1,
-      });
-    }
-    if (heroImg) {
-      gsap.set(heroImg, {
-        transform: "translateZ(1000px)",
-        opacity: 0,
-      });
-    }
-    // Ensure hero section always has black background and initial opacity
-    const heroSection = heroSectionRef.current;
-    if (heroSection) {
-      gsap.set(heroSection, { backgroundColor: "#000000", opacity: 1 });
+      // Set initial states
+      if (nav) {
+        gsap.set(nav, { opacity: 1 });
+      }
+      if (header) {
+        gsap.set(header, {
+          transform: "translate(-50%, -50%) translateZ(0px)",
+          opacity: 1,
+        });
+      }
+      if (heroImg) {
+        gsap.set(heroImg, {
+          transform: "translateZ(1000px)",
+          opacity: 0,
+        });
+      }
+      // Ensure hero section always has black background and initial opacity
+      const heroSection = heroSectionRef.current;
+      if (heroSection) {
+        gsap.set(heroSection, { backgroundColor: "#000000", opacity: 1 });
+      }
     }
 
     // Sections wrapper - create progress bar (keep scroll-based progress bar)
+    // This should always be set up, even without video
     if (progressBar && progressBarInner) {
       ScrollTrigger.create({
         trigger: ".sections-wrapper",

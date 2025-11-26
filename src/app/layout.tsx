@@ -19,7 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="overflow-x-hidden">
-      <body className="bg-white text-black overflow-x-hidden min-w-full">{children}</body>
+      <body className="bg-white text-black overflow-x-hidden min-w-full">
+        {children}
+      </body>
     </html>
   );
 }

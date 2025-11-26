@@ -2,11 +2,9 @@
 
 import type { RefObject } from "react";
 import HeroContent from "./HeroContent";
-import Navigation from "./Navigation";
 import ScrollDownIndicator from "./ScrollDownIndicator";
 
 interface HeroSectionProps {
-  navRef: RefObject<HTMLElement | null>;
   headerRef: RefObject<HTMLDivElement | null>;
   heroImgRef?: RefObject<HTMLDivElement | null>;
   videoRef: RefObject<HTMLVideoElement | null>;
@@ -15,7 +13,6 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({
-  navRef,
   headerRef,
   videoRef,
   heroSectionRef,
@@ -23,8 +20,6 @@ export default function HeroSection({
 }: HeroSectionProps) {
   return (
     <>
-      <Navigation ref={navRef} style={{ opacity: 0 }} />
-
       <section
         ref={heroSectionRef}
         className="hero-section hero relative w-full overflow-hidden bg-black"
@@ -42,6 +37,7 @@ export default function HeroSection({
           playsInline
           preload="auto"
           disablePictureInPicture
+          poster="/frame_001.png"
           className="w-full h-full object-cover"
           style={{
             position: "absolute",

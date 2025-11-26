@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { forwardRef } from "react";
 
 type HeroBackgroundProps = {
@@ -16,16 +17,14 @@ const HeroBackground = forwardRef<HTMLDivElement, HeroBackgroundProps>(
           willChange: "transform, opacity",
         }}
       >
-        <img
+        <Image
           src={imageUrl}
           alt="Hero background"
+          width={1000}
+          height={1000}
           className="w-full h-full object-cover"
         />
       </div>
     );
   },
 );
-
-HeroBackground.displayName = "HeroBackground";
-
-export default HeroBackground;
