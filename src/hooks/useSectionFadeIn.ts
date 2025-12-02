@@ -30,6 +30,10 @@ export function useSectionFadeIn(delay: number = 2000) {
           const elements = htmlSection.querySelectorAll(selector);
           elements.forEach((el) => {
             const htmlEl = el as HTMLElement;
+            // Skip elements with data-hero-content (handled by manual fade-in)
+            if (htmlEl.hasAttribute("data-hero-content")) {
+              return;
+            }
             // Only include if it's not absolute positioned (backgrounds are absolute)
             const computedStyle = window.getComputedStyle(htmlEl);
             if (
@@ -48,6 +52,10 @@ export function useSectionFadeIn(delay: number = 2000) {
         if (contentElements.length === 0) {
           Array.from(htmlSection.children).forEach((child) => {
             const htmlChild = child as HTMLElement;
+            // Skip elements with data-hero-content (handled by manual fade-in)
+            if (htmlChild.hasAttribute("data-hero-content")) {
+              return;
+            }
             const computedStyle = window.getComputedStyle(htmlChild);
             if (
               computedStyle.position !== "absolute" &&

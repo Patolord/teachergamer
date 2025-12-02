@@ -6,7 +6,9 @@ interface CoursesSectionProps {
   sectionIndex?: number;
 }
 
-export default function CoursesSection({ sectionIndex }: CoursesSectionProps) {
+export default function CoursesSection({
+  sectionIndex: _sectionIndex,
+}: CoursesSectionProps) {
   const courses = [
     {
       title: "Beginner Course",
@@ -37,18 +39,12 @@ export default function CoursesSection({ sectionIndex }: CoursesSectionProps) {
   ];
 
   return (
-    <section
-      data-scroll-section={sectionIndex}
-      className="relative w-full min-h-screen flex items-center justify-center bg-[url(/cardsbg.png)] bg-cover bg-center py-40"
-    >
+    <section className="relative w-full min-h-screen flex items-center justify-center bg-[url(/cardsbg.png)] bg-cover bg-center py-40 opacity-0">
       {/* Top horizontal transition element */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50" />
       <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-yellow-500/10 to-transparent pointer-events-none" />
 
-      <div
-        data-section-content
-        className="container mx-auto px-8 relative z-10"
-      >
+      <div className="container mx-auto px-8 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-semibold tracking-tight mb-4 bg-[linear-gradient(135deg,#fff_0%,#c47020_20%,#d09a11_40%,#fff_100%)] bg-[length:200%_200%] bg-clip-text text-transparent text-center inline-block animate-gradientShift">
             Choose your next Adventure!

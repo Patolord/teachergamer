@@ -3,26 +3,11 @@
 import { ArrowRight, Shield, Star, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { forwardRef, useEffect } from "react";
+import { forwardRef } from "react";
 import { Button } from "@/components/ui/button";
 import ShopSectionCard from "../shop/ShopSectionCard";
 
 const CombinedHeroSection = forwardRef<HTMLElement>((_props, ref) => {
-  // Fade in hero content after 2 seconds
-  useEffect(() => {
-    const heroContent = document.querySelector(
-      "[data-hero-content]",
-    ) as HTMLElement;
-    if (heroContent) {
-      heroContent.style.opacity = "0";
-      heroContent.style.transition = "opacity 1s ease-in-out";
-
-      setTimeout(() => {
-        heroContent.style.opacity = "1";
-      }, 2000);
-    }
-  }, []);
-
   return (
     <section ref={ref} className="relative w-full">
       {/* Background image covering both hero and shop sections */}
@@ -40,10 +25,7 @@ const CombinedHeroSection = forwardRef<HTMLElement>((_props, ref) => {
       </div>
 
       {/* Secondary Hero Section Content */}
-      <div
-        data-hero-content
-        className="container mx-auto px-4 py-16 md:py-24 lg:py-32 relative z-10"
-      >
+      <div className="container mx-auto px-4 py-16 md:py-24 lg:py-32 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border ">
