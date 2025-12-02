@@ -9,18 +9,6 @@ import { Button } from "@/components/ui/button";
 const SecondaryHeroSection = forwardRef<HTMLElement>((_props, ref) => {
   return (
     <section ref={ref} className="relative overflow-hidden">
-      {/* Background image with overlay */}
-      <div className="absolute inset-0 z-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: "url('/frame_001.png')",
-          }}
-        />
-        {/* Light overlay for text readability - only on background */}
-        <div className="absolute inset-0 bg-white/60" />
-      </div>
-
       <div className="container mx-auto px-4 py-16 md:py-24 lg:py-32 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">

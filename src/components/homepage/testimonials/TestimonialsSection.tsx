@@ -212,7 +212,7 @@ const Testimonials = ({ sectionIndex }: TestimonialsProps) => {
           }
         });
       },
-      { root: null, threshold: 0.1 },
+      { root: null, threshold: 0.03 },
     );
 
     rows.forEach((r) => {
@@ -231,7 +231,7 @@ const Testimonials = ({ sectionIndex }: TestimonialsProps) => {
       <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-yellow-500/10 to-transparent pointer-events-none" />
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div data-section-content className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <h3 className="text-4xl font-semibold tracking-tight mb-4 bg-[linear-gradient(135deg,#fff_0%,#c47020_20%,#d09a11_40%,#fff_100%)] bg-[length:200%_200%] bg-clip-text text-transparent text-center inline-block whitespace-nowrap animate-gradientShift">
             Testimonials

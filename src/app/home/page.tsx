@@ -5,14 +5,14 @@ import ProgressBar from "@/components/ProgressBar";
 import ScrollSlider from "@/components/ScrollSlider";
 import SplashCursor from "@/components/SplashCursor";
 import { useScrollAnimations } from "@/hooks/useScrollAnimations";
+import { useSectionFadeIn } from "@/hooks/useSectionFadeIn";
 import CalendarBookingSection from "../../components/homepage/bookings/CalendarBookingSection";
 import ContactSection from "../../components/homepage/contact/ContactSection";
 import CoursesSection from "../../components/homepage/courses/CoursesSection";
+import CombinedHeroSection from "../../components/homepage/hero-section/CombinedHeroSection";
 import Navigation from "../../components/homepage/hero-section/Navigation";
-import SecondaryHeroSection from "../../components/homepage/hero-section/SecondaryHeroSection";
 import ResearchSection from "../../components/homepage/research/ResearchSection";
 import StaircaseHUD from "../../components/homepage/StaircaseHUD";
-import ShopSection from "../../components/homepage/shop/ShopSection";
 import SubstackSection from "../../components/homepage/substack/SubstackSection";
 import TestimonialsSection from "../../components/homepage/testimonials/TestimonialsSection";
 
@@ -23,8 +23,11 @@ export default function HomePage() {
     staircaseHUDRef,
     sectionsWrapperRef,
   } = useScrollAnimations();
-  const secondaryHeroRef = useRef<HTMLElement>(null);
+  const combinedHeroRef = useRef<HTMLElement>(null);
   const [showHUDAndProgress, setShowHUDAndProgress] = useState(false);
+
+  // Add fade-in animations to all sections after 2 seconds
+  useSectionFadeIn(2000);
 
   // Remove transition overlay after page loads
   useEffect(() => {
@@ -69,10 +72,10 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Hide StaircaseHUD and ProgressBar when SecondaryHeroSection is visible
+  // Hide StaircaseHUD and ProgressBar when CombinedHeroSection is visible
   useEffect(() => {
     const handleScroll = () => {
-      const heroSection = secondaryHeroRef.current;
+      const heroSection = combinedHeroRef.current;
       if (!heroSection) return;
 
       const rect = heroSection.getBoundingClientRect();
@@ -97,21 +100,23 @@ export default function HomePage() {
 
       <div id="smooth-wrapper" className="w-full overflow-x-hidden">
         <div id="smooth-content" className="w-full">
-          <SecondaryHeroSection ref={secondaryHeroRef} />
-          <div ref={sectionsWrapperRef} className="sections-wrapper w-full">
-            <ShopSection sectionIndex={0} />
-            <SubstackSection sectionIndex={1} />
-            <CalendarBookingSection sectionIndex={2} />
-            <CoursesSection sectionIndex={3} />
-            <ResearchSection sectionIndex={4} />
+          <div className="relative w-full">
+            <CombinedHeroSection ref={combinedHeroRef} />
+            <div ref={sectionsWrapperRef} className="sections-wrapper w-full">
+              {/* <ShopSection sectionIndex={0} /> */}
+              <SubstackSection sectionIndex={1} />
+              <CalendarBookingSection sectionIndex={2} />
+              <CoursesSection sectionIndex={3} />
+              <ResearchSection sectionIndex={4} />
 
-            <TestimonialsSection sectionIndex={5} />
-            <ContactSection sectionIndex={6} />
+              <TestimonialsSection sectionIndex={5} />
+              <ContactSection sectionIndex={6} />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Hide StaircaseHUD and ProgressBar when SecondaryHeroSection is visible */}
+      {/* Hide StaircaseHUD and ProgressBar when CombinedHeroSection is visible */}
       <div
         className={`transition-opacity duration-300 ${
           showHUDAndProgress ? "opacity-100" : "opacity-0 pointer-events-none"

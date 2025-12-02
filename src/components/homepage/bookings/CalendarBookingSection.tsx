@@ -26,13 +26,16 @@ export default function CalendarBookingSection({
   return (
     <section
       data-scroll-section={sectionIndex}
-      className="bg-[url(/section-4-bg.png)] relative"
+      className="bg-[url(/workshop.png)] relative"
     >
       {/* Top horizontal transition element */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50 z-20" />
       <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-yellow-500/10 to-transparent pointer-events-none z-20" />
 
-      <div className="py-40 px-16 bg-black/60 bg-no-repeat bg-backdrop-none space-y-4 relative">
+      <div
+        data-section-content
+        className="py-30 px-16 bg-black/60 bg-no-repeat bg-backdrop-none space-y-4 relative"
+      >
         <h2 className="text-white text-3xl text-center font-pirata-one">
           Agende sua Sessão
         </h2>
