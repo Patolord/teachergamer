@@ -39,7 +39,7 @@ export default function CoursesSection({ sectionIndex }: CoursesSectionProps) {
   return (
     <section
       data-scroll-section={sectionIndex}
-      className="relative w-full min-h-screen flex items-center justify-center bg-black py-40"
+      className="relative w-full min-h-screen flex items-center justify-center bg-[url(/cardsbg.png)] bg-cover bg-center py-40"
     >
       {/* Top horizontal transition element */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-50" />
